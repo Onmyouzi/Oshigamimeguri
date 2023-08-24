@@ -8,7 +8,7 @@
 
 
 ## 環境構築
-1. `git clone `
+1. `git clone https://github.com/Onmyouzi/Oshigamimeguri.git`
 2. `flutter pub get`
 3. `open -a Simulator`
 4. `flutter run`
