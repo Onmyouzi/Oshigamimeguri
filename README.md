@@ -11,7 +11,9 @@
 1. `git clone https://github.com/Onmyouzi/Oshigamimeguri.git`
 2. `flutter pub get`
 3. `open -a Simulator`
-4. `flutter run`
+4. `SimulatorのFileタブ→new Simulator→iPhone 13`
+5. `SimulatorのFileタブ→open Simulator→iPhone 13`
+6. `flutter run`
 
 ## flutter pubについて
 `flutter pub add pub名`で新しいpubの追加
