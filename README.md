@@ -15,6 +15,40 @@
 5. `SimulatorのFileタブ→open Simulator→iPhone 13`
 6. `flutter run`
 
+## firebaseについて
+これはハッカソン本番に全員でmain.dartの非同期処理ができていることの確認が終わってからやりましょう！
+
+上記の環境構築・最初にやって欲しいことを行ってから行ってください。
+
+1. `firebase login`
+
+    firebaseにチームgoogleアカウントでログイン
+
+2. `dart pub global activate flutterfire_cli`
+
+    チームのfirebaseプロジェクトを検索エンジンで開いておく。
+
+3. `flutterfire configure`
+
+    チームのfirebaseプロジェクトを選択
+
+4. main.dartに以下がimportされているか確認
+```shell
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+```
+5. main.dartのvoid main()が以下の様になっているか確認
+```shell
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(MyApp());
+}
+```
+
+
 ## flutter pubについて
 `flutter pub add pub名`で新しいpubの追加
 
