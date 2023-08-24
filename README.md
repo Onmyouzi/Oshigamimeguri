@@ -7,7 +7,7 @@
 # 推し神めぐり
 
 
-## 環境構築
+## 環境構築・最初にやって欲しいこと
 1. `git clone https://github.com/Onmyouzi/Oshigamimeguri.git`
 2. `flutter pub get`
 3. `open -a Simulator`
