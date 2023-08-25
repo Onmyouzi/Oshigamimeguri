@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "69763492633",
+    "project_id": "oshi-gami-meguri",
+    "storage_bucket": "oshi-gami-meguri.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:69763492633:android:a854bbffb33e1bbfa5f388",
+        "android_client_info": {
+          "package_name": "com.example.oshigamimeguri"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "69763492633-b60shmpctgnsdln89llb6b849tv6t24j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtMxyluMoGkBnUbobC6pMtrZyB4y_Itrw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "69763492633-b60shmpctgnsdln89llb6b849tv6t24j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
