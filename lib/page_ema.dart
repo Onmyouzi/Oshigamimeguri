@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Ema extends ConsumerWidget {
+  //神社の座標を取得する
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
@@ -17,6 +19,7 @@ class Ema extends ConsumerWidget {
 final shrineProvider = FutureProvider<List<Map<String, dynamic>>>((ref) async {
   QuerySnapshot snapshot =
       await FirebaseFirestore.instance.collection('shrines').get();
+
   return snapshot.docs
       .map((doc) => doc.data() as Map<String, dynamic>)
       .toList();
@@ -28,14 +31,14 @@ class DataFetcher extends ConsumerWidget {
     return ref.watch(shrineProvider).when(
           data: (shrineData) {
             return ListView.builder(
-              itemCount: shrineData.length,
               itemBuilder: (context, index) {
                 // ここで,dataにshrineCenterの型をつけてあげてもいい
                 final data = shrineData[index];
                 print(data);
                 // ここでは `name` というフィールドを仮定しています。
                 return ListTile(
-                    title: Text(data["lat"].toString() ?? 'Unknown'));
+                  title: Text(data["lat"].toString() ?? 'Unknown'),
+                );
               },
             );
           },
@@ -102,3 +105,5 @@ class shrineCenter {
 //     this.updatedDate,
 //   });
 // }
+
+
