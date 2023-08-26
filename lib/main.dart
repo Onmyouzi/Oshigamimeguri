@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:oshigamimeguri/page_explain.dart';
 import 'package:oshigamimeguri/page_oshigami_reqistration.dart';
 import 'package:oshigamimeguri/page_sign_in.dart';
 import 'package:oshigamimeguri/page_sign_up.dart';
@@ -20,10 +21,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: '/signIn',
+      initialRoute: '/explain',
       routes: {
         '/signIn': (context) => const PageSignIn(),
         '/signUp': (context) => const PageSignUp(),
+        '/explain': (context) => const Explain(),
         '/signUp/oshigamiReqistration': (context) =>
             const PageOshigamiReqistration(),
       },
