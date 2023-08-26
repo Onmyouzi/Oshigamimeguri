@@ -93,7 +93,9 @@ class PageSignIn extends StatelessWidget {
                       ),
                       CustomFormTextButton(
                         text: '新規登録はこちら',
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).pushNamed('/signUp');
+                        },
                       ),
                     ],
                   ),
