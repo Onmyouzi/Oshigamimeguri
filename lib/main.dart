@@ -4,29 +4,48 @@ import 'package:oshigamimeguri/page_oshigami_reqistration.dart';
 import 'package:oshigamimeguri/page_sign_in.dart';
 import 'package:oshigamimeguri/page_sign_up.dart';
 import 'package:oshigamimeguri/firebase_options.dart';
-import 'package:oshigamimeguri/page_ema.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  runApp(ProviderScope(child: const MyApp()));
+  runApp(const ProviderScope(child: MyApp()));
 }
+
+final GoRouter _router = GoRouter(
+  initialLocation: '/signIn',
+  routes: <RouteBase>[
+    GoRoute(
+      path: '/signIn',
+      builder: (BuildContext context, GoRouterState state) {
+        return const PageSignIn();
+      },
+    ),
+    GoRoute(
+        path: '/signUp',
+        builder: (BuildContext context, GoRouterState state) {
+          return const PageSignUp();
+        },
+        routes: [
+          GoRoute(
+            path: 'oshigamiReqistration',
+            builder: (BuildContext context, GoRouterState state) {
+              return const PageOshigamiReqistration();
+            },
+          ),
+        ]),
+  ],
+);
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      initialRoute: '/signIn',
-      routes: {
-        '/signIn': (context) => const PageSignIn(),
-        '/signUp': (context) => const PageSignUp(),
-        '/signUp/oshigamiReqistration': (context) =>
-            const PageOshigamiReqistration(),
-      },
+    return MaterialApp.router(
+      routerConfig: _router,
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
