@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -41,6 +42,11 @@ class _MyHomePageState extends State<MyHomePage> {
         const Text("○○神社"),
         const Text("説明"),
         const Text("ご利益"),
+        const Image(
+            painter = painterResource(id = R.drawable.Vector),
+            contentDescription = "image description",
+            contentScale = ContentScale.None
+        )
         TextButton(
           onPressed: () => {print("ボタンがおされたよ")},
           child: const Text("テキストボタン"),
@@ -70,6 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+
 
 
 
