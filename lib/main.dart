@@ -1,5 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:oshigamimeguri/page_oshigami_reqistration.dart';
+import 'package:oshigamimeguri/page_sign_in.dart';
+import 'package:oshigamimeguri/page_sign_up.dart';
 import 'package:oshigamimeguri/firebase_options.dart';
 import 'package:oshigamimeguri/page_ema.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,12 +16,19 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      initialRoute: '/signIn',
+      routes: {
+        '/signIn': (context) => const PageSignIn(),
+        '/signUp': (context) => const PageSignUp(),
+        '/signUp/oshigamiReqistration': (context) =>
+            const PageOshigamiReqistration(),
+      },
+
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
