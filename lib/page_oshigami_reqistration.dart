@@ -73,14 +73,14 @@ class _PageOshigamiReqistrationState extends State<PageOshigamiReqistration> {
                                 const Text(
                                   '推し神名：',
                                   style: TextStyle(
-                                    fontSize: 40,
+                                    fontSize: 32,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                                 Text(
                                   odhigamiName[_selectedValueIndex],
                                   style: TextStyle(
-                                    fontSize: 48,
+                                    fontSize: 40,
                                     fontWeight: FontWeight.bold,
                                     color: MyColors.primary,
                                   ),
