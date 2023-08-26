@@ -99,6 +99,8 @@ class PageSignUp extends StatelessWidget {
                                 print(email);
                                 print(password);
                                 print(checkPassword);
+                                Navigator.of(context)
+                                    .pushNamed('/signUp/oshigamiReqistration');
                               },
                             ),
                             CustomFormTextButton(
