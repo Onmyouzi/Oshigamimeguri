@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:oshigamimeguri/page_oshigami_reqistration.dart';
 import 'package:oshigamimeguri/page_sign_in.dart';
 import 'package:oshigamimeguri/page_sign_up.dart';
 
@@ -16,6 +17,8 @@ class MyApp extends StatelessWidget {
       routes: {
         '/signIn': (context) => const PageSignIn(),
         '/signUp': (context) => const PageSignUp(),
+        '/signUp/oshigamiReqistration': (context) =>
+            const PageOshigamiReqistration(),
       },
     );
   }
