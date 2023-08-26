@@ -62,7 +62,7 @@ class _PageOshigamiReqistrationState extends State<PageOshigamiReqistration> {
                             height: boxHeight * 0.55 * 0.3,
                             child: const Text(
                               '推しの神様を選んでください！',
-                              style: TextStyle(fontSize: 24),
+                              style: TextStyle(fontSize: 20),
                             ),
                           ),
                           SizedBox(
