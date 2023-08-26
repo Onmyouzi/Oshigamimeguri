@@ -14,6 +14,11 @@ class PageSignUp extends StatelessWidget {
     final double boxHeight = size.height * 0.8;
     final double boxWidth = size.width * 0.9;
 
+    final form1 = GlobalKey<FormState>();
+    String email = '';
+    String password = '';
+    String checkPassword = '';
+
     return Scaffold(
       body: GestureDetector(
         onTap: () {
@@ -26,73 +31,87 @@ class PageSignUp extends StatelessWidget {
           children: [
             const Background(),
             Align(
-              alignment: Alignment(0, 0.3),
+              alignment: const Alignment(0, 0.3),
               child: FromBox(
                 height: boxHeight,
                 width: boxWidth,
-                child: Column(
-                  children: [
-                    Container(
-                      height: boxHeight * 0.2 - 8,
-                      child: const Align(
-                        alignment: Alignment(0, 0.5),
-                        child: Text(
-                          '新規登録',
-                          style: TextStyle(
-                              fontSize: 48, fontWeight: FontWeight.w600),
+                child: Form(
+                  key: form1,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: boxHeight * 0.2 - 8,
+                        child: const Align(
+                          alignment: Alignment(0, 0.5),
+                          child: Text(
+                            '新規登録',
+                            style: TextStyle(
+                                fontSize: 48, fontWeight: FontWeight.w600),
+                          ),
                         ),
                       ),
-                    ),
-                    Container(
-                      height: boxHeight * 0.55,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          CustomTextFormField(
-                            height: boxHeight * 0.14,
-                            width: boxWidth * 0.9,
-                            text: 'メールアドレス',
-                            textInputAction: TextInputAction.next,
-                            onSaved: (value) {},
-                          ),
-                          CustomTextFormField(
-                            height: boxHeight * 0.14,
-                            width: boxWidth * 0.9,
-                            obscureText: true,
-                            text: 'パスワード',
-                            onSaved: (value) {},
-                          ),
-                          CustomTextFormField(
-                            height: boxHeight * 0.14,
-                            width: boxWidth * 0.9,
-                            obscureText: true,
-                            text: '確認パスワード',
-                            onSaved: (value) {},
-                          ),
-                        ],
+                      SizedBox(
+                        height: boxHeight * 0.55,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            CustomTextFormField(
+                              height: boxHeight * 0.13,
+                              width: boxWidth * 0.9,
+                              text: 'メールアドレス',
+                              textInputAction: TextInputAction.next,
+                              onSaved: (value) {
+                                email = value;
+                              },
+                            ),
+                            CustomTextFormField(
+                              height: boxHeight * 0.13,
+                              width: boxWidth * 0.9,
+                              obscureText: true,
+                              text: 'パスワード',
+                              onSaved: (value) {
+                                password = value;
+                              },
+                            ),
+                            CustomTextFormField(
+                              height: boxHeight * 0.13,
+                              width: boxWidth * 0.9,
+                              obscureText: true,
+                              text: '確認パスワード',
+                              onSaved: (value) {
+                                checkPassword = value;
+                              },
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    Container(
-                      height: boxHeight * 0.25 - 8,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CustomFormElevatedButton(
-                            height: (boxHeight * 0.4 - 8) * 0.23,
-                            width: boxWidth * 0.6,
-                            text: '登録',
-                            onPressed: () {},
-                          ),
-                          CustomFormTextButton(
-                            text: 'ログインはこちら',
-                            onPressed: () {
-                              Navigator.of(context).pushNamed('/signIn');
-                            },
-                          ),
-                        ],
+                      SizedBox(
+                        height: boxHeight * 0.25 - 8,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CustomFormElevatedButton(
+                              height: (boxHeight * 0.4 - 8) * 0.2,
+                              width: boxWidth * 0.6,
+                              text: '登録',
+                              onPressed: () {
+                                form1.currentState?.save();
+                                print(email);
+                                print(password);
+                                print(checkPassword);
+                              },
+                            ),
+                            CustomFormTextButton(
+                              text: 'ログインはこちら',
+                              onPressed: () {
+                                Navigator.of(context).pushNamed('/signIn');
+                              },
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             )
