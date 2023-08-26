@@ -20,6 +20,8 @@ dependencies:
   freezed_annotation: ^2.4.1
   algolia: ^1.1.2
   http: ^0.13.5
+  geolocator: ^10.0.0
+  geocoding: ^2.1.0
 
 dev_dependencies:
   flutter_test:
@@ -33,4 +35,6 @@ dev_dependencies:
 dependency_overrides:
   intl: ^0.18.0-nullsafety.2
 flutter:
+  assets:
+    - images/
   uses-material-design: true
