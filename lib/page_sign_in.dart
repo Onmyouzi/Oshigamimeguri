@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:oshigamimeguri/background.dart';
 import 'package:oshigamimeguri/custom_form_elevated_button.dart';
 import 'package:oshigamimeguri/custom_form_text_button.dart';
@@ -94,7 +95,7 @@ class PageSignIn extends StatelessWidget {
                       CustomFormTextButton(
                         text: '新規登録はこちら',
                         onPressed: () {
-                          Navigator.of(context).pushNamed('/signUp');
+                          context.go('/signUp');
                         },
                       ),
                     ],

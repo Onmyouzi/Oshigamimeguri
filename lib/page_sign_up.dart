@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:oshigamimeguri/background.dart';
 import 'package:oshigamimeguri/custom_form_elevated_button.dart';
 import 'package:oshigamimeguri/custom_form_text_button.dart';
@@ -99,14 +100,13 @@ class PageSignUp extends StatelessWidget {
                                 print(email);
                                 print(password);
                                 print(checkPassword);
-                                Navigator.of(context)
-                                    .pushNamed('/signUp/oshigamiReqistration');
+                                context.go('/signUp/oshigamiReqistration');
                               },
                             ),
                             CustomFormTextButton(
                               text: 'ログインはこちら',
                               onPressed: () {
-                                Navigator.of(context).pushNamed('/signIn');
+                                context.go('/signIn');
                               },
                             ),
                           ],
