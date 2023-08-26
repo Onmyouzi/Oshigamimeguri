@@ -6,13 +6,40 @@ class Ema extends ConsumerWidget {
   //神社の座標を取得する
 
   @override
+  //ここにUIを書いていく？？
   Widget build(BuildContext context, WidgetRef ref) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(title: Text('Firestore with Riverpod')),
-        body: DataFetcher(),
-      ),
-    );
+    return new MaterialApp(
+        home: Container(
+            color: Color.fromARGB(255, 247, 229, 64),
+            child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    height: 200,
+                    color: Color.fromARGB(255, 239, 246, 181),
+                  ),
+                  Container(
+                    height: 200,
+                    color: Color.fromARGB(255, 247, 249, 234),
+                  ),
+                  Container(
+                    height: 200,
+                    color: Color.fromARGB(255, 240, 240, 235),
+                  ),
+                  Container(
+                    height: 200,
+                    color: Colors.yellow,
+                  ),
+                ],
+              ),
+            )));
+    // return MaterialApp(
+    //   home: Scaffold(
+    //     appBar: AppBar(title: Text('Firestore with Riverpod')),
+    //     body: DataFetcher(),
+
+    //   ),
+    // );
   }
 }
 
