@@ -92,12 +92,12 @@ class PageSignIn extends StatelessWidget {
                           form0.currentState?.save();
                           try {
                             /// credential にはアカウント情報が記録される
-                            final credential = await FirebaseAuth.instance
+                            await FirebaseAuth.instance
                                 .signInWithEmailAndPassword(
                               email: email,
                               password: password,
                             );
-                            Navigator.of(context).pushNamed('/testHome');
+                            context.go('/home');
                           }
 
                           /// サインインに失敗した場合のエラー処理

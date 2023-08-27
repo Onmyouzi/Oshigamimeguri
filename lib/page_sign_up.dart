@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:oshigamimeguri/arguments_user_info.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:oshigamimeguri/background.dart';
@@ -9,12 +9,15 @@ import 'package:oshigamimeguri/custom_form_show_dialog.dart';
 import 'package:oshigamimeguri/custom_form_text_button.dart';
 import 'package:oshigamimeguri/custom_form_text_form_field.dart';
 import 'package:oshigamimeguri/from_box.dart';
+import 'package:oshigamimeguri/user_info.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-class PageSignUp extends StatelessWidget {
+class PageSignUp extends ConsumerWidget {
   const PageSignUp({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userInfo = ref.watch(userInfoProvider);
     final Size size = MediaQuery.of(context).size;
     final double boxHeight = size.height * 0.8;
     final double boxWidth = size.width * 0.9;
@@ -100,6 +103,8 @@ class PageSignUp extends StatelessWidget {
                               width: boxWidth * 0.6,
                               text: '登録',
                               onPressed: () async {
+                                final userInfoState =
+                                    ref.watch(userInfoProvider.notifier);
                                 form1.currentState?.save();
 
                                 if (password == checkPassword) {
@@ -114,10 +119,10 @@ class PageSignUp extends StatelessWidget {
 
                                     auth.currentUser?.delete();
 
-                                    Navigator.of(context).pushNamed(
-                                        '/signUp/oshigamiReqistration',
-                                        arguments: ArgumentsUserInfo(
-                                            email: email, password: password));
+                                    userInfoState.updateUserInfo(
+                                        email, password);
+
+                                    context.go('/signUp/oshigamiReqistration');
                                   }
 
                                   /// アカウントに失敗した場合のエラー処理
@@ -147,11 +152,7 @@ class PageSignUp extends StatelessWidget {
                                   customFormShowDialog(
                                       context, 'パスワードと確認パスワードが異なります');
                                 }
-                                print(email);
-                                print(password);
-                                print(checkPassword);
                                 context.go('/signUp/oshigamiReqistration');
-
                               },
                             ),
                             CustomFormTextButton(
