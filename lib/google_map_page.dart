@@ -20,26 +20,6 @@ class GoogleMapPage extends StatelessWidget {
     mapController = controller;
   }
 
-  Future<Set<Marker>> _createMarkers() async {
-    QuerySnapshot snapshot = await _firestore.collection('shrines').get();
-    final markers = Set<Marker>();
-
-    for (final document in snapshot.docs) {
-      final shrines = document.data() as Map<String, dynamic>;
-      double lat = shrines['lat'];
-      double lng = shrines['lng'];
-
-      Marker marker = Marker(
-        markerId: MarkerId(document.id),
-        position: LatLng(lat, lng),
-      );
-
-      markers.add(marker);
-    }
-
-    return markers;
-  }
-
   @override
   Widget build(BuildContext context) {
     final _screenSize = MediaQuery.of(context).size;
@@ -78,25 +58,18 @@ class GoogleMapPage extends StatelessWidget {
                 child: Container(
                   width: _screenSize.width * 0.9,
                   height: _screenSize.height * 0.55,
-                  child: FutureBuilder<Set<Marker>>(
-                    future: _createMarkers(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        if (snapshot.hasError) {
-                          return Center(child: Text('エラー: ${snapshot.error}'));
-                        }
-                        return GoogleMap(
-                          initialCameraPosition: CameraPosition(
-                            target: _center,
-                            zoom: 15,
-                          ),
-                          markers: snapshot.data!,
-                          // 他のGoogleMapのプロパティ...
-                        );
-                      } else {
-                        return Center(child: CircularProgressIndicator());
-                      }
+                  child: GoogleMap(
+                    initialCameraPosition: CameraPosition(
+                      target: _center,
+                      zoom: 15,
+                    ),
+                    markers: {
+                      Marker(
+                        markerId: MarkerId(shrine.godID),
+                        position: LatLng(shrine.lat, shrine.lng),
+                      )
                     },
+                    // 他のGoogleMapのプロパティ...
                   ),
                 ),
               )
