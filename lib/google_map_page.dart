@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:oshigamimeguri/background.dart';
 import 'package:oshigamimeguri/page_explain.dart';
 
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -46,57 +47,64 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
   Widget build(BuildContext context) {
     final _screenSize = MediaQuery.of(context).size;
     return Scaffold(
-      body: Column(
+      body: Stack(
         children: [
-          Container(
-            width: _screenSize.width,
-            height: _screenSize.height * 0.2,
-            child: Image.asset('images/headerLogo.png'),
-          ),
-          Container(
-            width: _screenSize.width,
-            height: _screenSize.height * 0.6,
-            child: Column(children: [
-              GestureDetector(
-                onTap: () {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) => Explain()));
-                },
-                child: Container(
-                  alignment: Alignment.centerLeft,
-                  width: _screenSize.width,
-                  height: _screenSize.height * 0.07 * 0.6,
-                  child: Image.asset('images/backbotton.png'),
-                ),
+          Background(),
+          Column(
+            children: [
+              Container(
+                width: _screenSize.width,
+                height: _screenSize.height * 0.2,
+                child: Image.asset('images/headerLogo.png'),
               ),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(30),
-                child: Container(
-                  width: _screenSize.width * 0.9,
-                  height: _screenSize.height * 0.55,
-                  child: FutureBuilder<Set<Marker>>(
-                    future: _createMarkers(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        if (snapshot.hasError) {
-                          return Center(child: Text('エラー: ${snapshot.error}'));
-                        }
-                        return GoogleMap(
-                          initialCameraPosition: CameraPosition(
-                            target: _center,
-                            zoom: 15,
-                          ),
-                          markers: snapshot.data!,
-                          // 他のGoogleMapのプロパティ...
-                        );
-                      } else {
-                        return Center(child: CircularProgressIndicator());
-                      }
+              Container(
+                width: _screenSize.width,
+                height: _screenSize.height * 0.6,
+                child: Column(children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => Explain()));
                     },
+                    child: Container(
+                      alignment: Alignment.centerLeft,
+                      width: _screenSize.width,
+                      height: _screenSize.height * 0.07 * 0.6,
+                      child: Image.asset('images/backbotton.png'),
+                    ),
                   ),
-                ),
-              )
-            ]),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(30),
+                    child: Container(
+                      width: _screenSize.width * 0.9,
+                      height: _screenSize.height * 0.55,
+                      child: FutureBuilder<Set<Marker>>(
+                        future: _createMarkers(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            if (snapshot.hasError) {
+                              return Center(
+                                  child: Text('エラー: ${snapshot.error}'));
+                            }
+                            return GoogleMap(
+                              initialCameraPosition: CameraPosition(
+                                target: _center,
+                                zoom: 15,
+                              ),
+                              markers: snapshot.data!,
+                              // 他のGoogleMapのプロパティ...
+                            );
+                          } else {
+                            return Center(child: CircularProgressIndicator());
+                          }
+                        },
+                      ),
+                    ),
+                  )
+                ]),
+              ),
+            ],
           ),
         ],
       ),

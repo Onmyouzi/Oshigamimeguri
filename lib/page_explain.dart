@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:oshigamimeguri/background.dart';
 
 class Explain extends StatelessWidget {
   const Explain({super.key});
@@ -8,6 +9,7 @@ class Explain extends StatelessWidget {
     final _screenSize = MediaQuery.of(context).size;
     return Scaffold(
       body: Stack(children: [
+        Background(),
         Container(
           width: _screenSize.width,
           height: _screenSize.height * 0.2,
