@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:oshigamimeguri/arguments_user_info.dart';
+import 'package:go_router/go_router.dart';
+
 import 'package:oshigamimeguri/background.dart';
 import 'package:oshigamimeguri/custom_form_elevated_button.dart';
 import 'package:oshigamimeguri/custom_form_show_dialog.dart';
@@ -99,6 +101,7 @@ class PageSignUp extends StatelessWidget {
                               text: '登録',
                               onPressed: () async {
                                 form1.currentState?.save();
+
                                 if (password == checkPassword) {
                                   try {
                                     final auth = FirebaseAuth.instance;
@@ -144,12 +147,17 @@ class PageSignUp extends StatelessWidget {
                                   customFormShowDialog(
                                       context, 'パスワードと確認パスワードが異なります');
                                 }
+                                print(email);
+                                print(password);
+                                print(checkPassword);
+                                context.go('/signUp/oshigamiReqistration');
+
                               },
                             ),
                             CustomFormTextButton(
                               text: 'ログインはこちら',
                               onPressed: () {
-                                Navigator.of(context).pushNamed('/signIn');
+                                context.go('/signIn');
                               },
                             ),
                           ],

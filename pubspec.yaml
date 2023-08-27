@@ -23,6 +23,11 @@ dependencies:
   geolocator: ^10.0.0
   geocoding: ^2.1.0
 
+  google_maps_flutter: ^2.4.0
+
+  go_router: ^10.1.0
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
