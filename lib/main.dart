@@ -19,12 +19,24 @@ void main() async {
 }
 
 final GoRouter _router = GoRouter(
-  initialLocation: '/signIn',
+  initialLocation: '/googlemap',
   routes: <RouteBase>[
+    GoRoute(
+      path: '/',
+      builder: (context, state) {
+        return const Home();
+      },
+    ),
     GoRoute(
       path: '/signIn',
       builder: (BuildContext context, GoRouterState state) {
         return const PageSignIn();
+      },
+    ),
+    GoRoute(
+      path: '/googlemap',
+      builder: (BuildContext context, GoRouterState state) {
+        return const GoogleMapPage();
       },
     ),
     GoRoute(
@@ -48,11 +60,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp.router(
       routerConfig: _router,
-
-
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
