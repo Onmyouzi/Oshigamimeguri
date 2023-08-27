@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:oshigamimeguri/background.dart';
 import 'package:oshigamimeguri/google_map_page.dart';
 import 'package:oshigamimeguri/my_colors.dart';
 import 'package:oshigamimeguri/page_ema.dart';
@@ -54,6 +55,7 @@ class PageNavi extends HookWidget {
     return Scaffold(
       body: Stack(
         children: [
+          const Background(),
           pages[selectPageId.value],
           Container(
             alignment: Alignment(0, 0.9),
