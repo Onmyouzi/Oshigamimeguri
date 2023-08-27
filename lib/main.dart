@@ -17,7 +17,9 @@ void main() async {
 }
 
 final GoRouter _router = GoRouter(
-  initialLocation: '/',
+
+
+  initialLocation: '/signIn',
   routes: <RouteBase>[
     GoRoute(
       path: '/',
@@ -45,11 +47,6 @@ final GoRouter _router = GoRouter(
         ),
       ],
     ),
-    GoRoute(
-        path: '/explain',
-        builder: (BuildContext context, GoRouterState state) {
-          return const Explain();
-        }),
   ],
 );
 

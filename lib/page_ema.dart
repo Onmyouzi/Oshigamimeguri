@@ -4,8 +4,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
+
 import 'package:oshigamimeguri/background.dart';
+
+
+import 'package:oshigamimeguri/shrine_cetner.dart';
+
+
 import 'package:oshigamimeguri/my_colors.dart';
+
 
 class Ema extends ConsumerWidget {
   //神社の座標を取得する
@@ -45,7 +52,7 @@ final shrineProvider = FutureProvider<List<shrineCenter>>((ref) async {
           explanation: shrine["explanation"].toString(),
           godID: shrine['godID'].toString(),
           name: shrine['name'].toString(),
-          hiraName: shrine['hiraName'].toString())) // List<List<data>>
+          hiraName: shrine['hiraName'].toString())) // List<List<data>
       .toList();
 });
 
@@ -154,26 +161,6 @@ class DataFetcher extends ConsumerWidget {
       return Center(child: CircularProgressIndicator());
     }
   }
-}
-
-//クラス名
-class shrineCenter {
-  final String explanation;
-  final String godID;
-  final String hiraName;
-  final String name;
-  final double lat;
-  final double lng;
-  final String imageName;
-
-  shrineCenter(
-      {required this.explanation,
-      required this.godID,
-      required this.hiraName,
-      required this.name,
-      required this.lat,
-      required this.lng,
-      required this.imageName});
 }
 
 /// デバイスの現在位置を決定する。
