@@ -12,9 +12,7 @@ class Ema extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final double _deviceWidth = MediaQuery.of(context).size.width;
     final double _deviceHeight = MediaQuery.of(context).size.height;
-    return new MaterialApp(
-      home: Scaffold(body: DataFetcher()),
-    );
+    return Scaffold(body: DataFetcher());
   }
 }
 

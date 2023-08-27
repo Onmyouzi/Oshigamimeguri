@@ -1,7 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:oshigamimeguri/google_map_page.dart';
 import 'package:oshigamimeguri/page_explain.dart';
+import 'package:oshigamimeguri/page_home.dart';
 import 'package:oshigamimeguri/page_oshigami_reqistration.dart';
+import 'package:oshigamimeguri/page_serch.dart';
 import 'package:oshigamimeguri/page_sign_in.dart';
 import 'package:oshigamimeguri/page_sign_up.dart';
 import 'package:oshigamimeguri/firebase_options.dart';
@@ -45,8 +48,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp.router(
       routerConfig: _router,
+
 
       title: 'Flutter Demo',
       theme: ThemeData(
