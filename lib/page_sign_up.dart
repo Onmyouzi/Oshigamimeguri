@@ -28,6 +28,7 @@ class PageSignUp extends ConsumerWidget {
     String checkPassword = '';
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: GestureDetector(
         onTap: () {
           final FocusScopeNode currentScope = FocusScope.of(context);

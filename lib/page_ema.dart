@@ -5,7 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 
+import 'package:oshigamimeguri/background.dart';
+
+
 import 'package:oshigamimeguri/shrine_cetner.dart';
+
 
 import 'package:oshigamimeguri/my_colors.dart';
 
@@ -16,7 +20,14 @@ class Ema extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final double _deviceWidth = MediaQuery.of(context).size.width;
     final double _deviceHeight = MediaQuery.of(context).size.height;
-    return Scaffold(body: DataFetcher());
+    return Scaffold(
+      body: Stack(
+        children: [
+          Background(),
+          DataFetcher(),
+        ],
+      ),
+    );
   }
 }
 

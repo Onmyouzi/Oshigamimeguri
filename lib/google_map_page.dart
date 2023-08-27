@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:oshigamimeguri/background.dart';
 import 'package:oshigamimeguri/page_explain.dart';
 import 'package:oshigamimeguri/shrine_cetner.dart';
 
@@ -25,8 +26,9 @@ class GoogleMapPage extends StatelessWidget {
     final _screenSize = MediaQuery.of(context).size;
 
     return Scaffold(
-      body: Column(
+      body: Stack(
         children: [
+          Background(),
           Container(
             width: _screenSize.width,
             height: _screenSize.height * 0.2,
@@ -70,10 +72,10 @@ class GoogleMapPage extends StatelessWidget {
                       )
                     },
                     // 他のGoogleMapのプロパティ...
-                  ),
-                ),
-              )
-            ]),
+                      ),
+                    ),
+                  )
+                ]),
           ),
         ],
       ),

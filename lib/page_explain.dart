@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:oshigamimeguri/background.dart';
 import 'package:oshigamimeguri/google_map_page.dart';
 import 'package:oshigamimeguri/page_serch.dart';
 import 'package:oshigamimeguri/shrine_cetner.dart';
@@ -24,6 +25,7 @@ class Explain extends StatelessWidget {
     final _center = LatLng(shrine.lat, shrine.lng);
     return Scaffold(
       body: Stack(children: [
+        Background(),
         Container(
           width: _screenSize.width,
           height: _screenSize.height * 0.2,

@@ -1,8 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+
+import 'package:oshigamimeguri/background.dart';
+
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:oshigamimeguri/ShrineCard.dart';
 import 'package:oshigamimeguri/shrine_cetner.dart';
+
 
 class Search extends HookWidget {
   const Search({super.key});
@@ -26,8 +30,10 @@ class Search extends HookWidget {
     }, []);
 
     return Scaffold(
-      body: Column(
+      backgroundColor: Colors.transparent,
+      body: Stack(
         children: [
+          Background(),
           Container(
             width: _screenSize.width,
             height: _screenSize.height * 0.2,
