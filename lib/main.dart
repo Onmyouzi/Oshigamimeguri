@@ -28,18 +28,24 @@ final GoRouter _router = GoRouter(
       },
     ),
     GoRoute(
-        path: '/signUp',
+      path: '/signUp',
+      builder: (BuildContext context, GoRouterState state) {
+        return const PageSignUp();
+      },
+      routes: [
+        GoRoute(
+          path: 'oshigamiReqistration',
+          builder: (BuildContext context, GoRouterState state) {
+            return const PageOshigamiReqistration();
+          },
+        ),
+      ],
+    ),
+    GoRoute(
+        path: '/home',
         builder: (BuildContext context, GoRouterState state) {
-          return const PageSignUp();
-        },
-        routes: [
-          GoRoute(
-            path: 'oshigamiReqistration',
-            builder: (BuildContext context, GoRouterState state) {
-              return const PageOshigamiReqistration();
-            },
-          ),
-        ]),
+          return const Home();
+        })
   ],
 );
 
@@ -48,11 +54,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp.router(
       routerConfig: _router,
-
-
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
