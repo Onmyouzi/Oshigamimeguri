@@ -47,5 +47,16 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+    <string>googlechromes</string>
+    <string>comgooglemaps</string>
+	</array>
+	<key>NSLocationWhenInUseUsageDescription</key>
+    <string>Required to post location information when posting photos and videos.</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>Required to post location information when posting photos and videos.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+<string>This app needs access to location when open.</string>
 </dict>
 </plist>
