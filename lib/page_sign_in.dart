@@ -97,7 +97,7 @@ class PageSignIn extends StatelessWidget {
                               email: email,
                               password: password,
                             );
-                            context.go('/home');
+                            context.go('/');
                           }
 
                           /// サインインに失敗した場合のエラー処理

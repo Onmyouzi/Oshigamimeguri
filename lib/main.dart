@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:oshigamimeguri/google_map_page.dart';
 import 'package:oshigamimeguri/page_explain.dart';
 import 'package:oshigamimeguri/page_home.dart';
+import 'package:oshigamimeguri/page_navi.dart';
 import 'package:oshigamimeguri/page_oshigami_reqistration.dart';
 import 'package:oshigamimeguri/page_serch.dart';
 import 'package:oshigamimeguri/page_sign_in.dart';
@@ -19,12 +20,12 @@ void main() async {
 }
 
 final GoRouter _router = GoRouter(
-  initialLocation: '/googlemap',
+  initialLocation: '/signIn',
   routes: <RouteBase>[
     GoRoute(
       path: '/',
       builder: (context, state) {
-        return const Home();
+        return const PageNavi();
       },
     ),
     GoRoute(
@@ -48,13 +49,6 @@ final GoRouter _router = GoRouter(
         ),
       ],
     ),
-    GoRoute(
-        path: '/home',
-
-     
-        builder: (BuildContext context, GoRouterState state) {
-          return const Home();
-        })
   ],
 );
 
