@@ -19,8 +19,14 @@ void main() async {
 }
 
 final GoRouter _router = GoRouter(
-  initialLocation: '/signIn',
+  initialLocation: '/googlemap',
   routes: <RouteBase>[
+    GoRoute(
+      path: '/',
+      builder: (context, state) {
+        return const Home();
+      },
+    ),
     GoRoute(
       path: '/signIn',
       builder: (BuildContext context, GoRouterState state) {
@@ -28,6 +34,7 @@ final GoRouter _router = GoRouter(
       },
     ),
     GoRoute(
+
       path: '/signUp',
       builder: (BuildContext context, GoRouterState state) {
         return const PageSignUp();
@@ -43,6 +50,8 @@ final GoRouter _router = GoRouter(
     ),
     GoRoute(
         path: '/home',
+
+     
         builder: (BuildContext context, GoRouterState state) {
           return const Home();
         })

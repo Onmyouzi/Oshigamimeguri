@@ -57,6 +57,8 @@
     <key>NSLocationAlwaysUsageDescription</key>
     <string>Required to post location information when posting photos and videos.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-<string>This app needs access to location when open.</string>
+	<string>This app needs access to location when open.</string>
+   <key>io.flutter.embedded_views_preview</key>
+	<string>YES</string>
 </dict>
 </plist>
