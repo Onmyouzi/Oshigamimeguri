@@ -1,11 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:oshigamimeguri/google_map_page.dart';
 import 'package:oshigamimeguri/page_explain.dart';
-import 'package:oshigamimeguri/page_home.dart';
 import 'package:oshigamimeguri/page_navi.dart';
 import 'package:oshigamimeguri/page_oshigami_reqistration.dart';
-import 'package:oshigamimeguri/page_serch.dart';
 import 'package:oshigamimeguri/page_sign_in.dart';
 import 'package:oshigamimeguri/page_sign_up.dart';
 import 'package:oshigamimeguri/firebase_options.dart';
@@ -20,7 +17,7 @@ void main() async {
 }
 
 final GoRouter _router = GoRouter(
-  initialLocation: '/signIn',
+  initialLocation: '/',
   routes: <RouteBase>[
     GoRoute(
       path: '/',
@@ -35,7 +32,6 @@ final GoRouter _router = GoRouter(
       },
     ),
     GoRoute(
-
       path: '/signUp',
       builder: (BuildContext context, GoRouterState state) {
         return const PageSignUp();
@@ -49,6 +45,11 @@ final GoRouter _router = GoRouter(
         ),
       ],
     ),
+    GoRoute(
+        path: '/explain',
+        builder: (BuildContext context, GoRouterState state) {
+          return const Explain();
+        }),
   ],
 );
 
