@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:oshigamimeguri/shrine_cetner.dart';
 
 class Explain extends StatelessWidget {
-  const Explain({super.key});
+  const Explain({super.key, required this.shrine});
+
+  final shrineCenter shrine;
 
   @override
   Widget build(BuildContext context) {

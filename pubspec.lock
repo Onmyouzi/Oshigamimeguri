@@ -366,16 +366,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-
-  flutter_hooks:
-    dependency: "direct main"
-    description:
-      name: flutter_hooks
-      sha256: "9eab8fd7aa752c3c1c0a364f9825851d410eb935243411682f4b1b0a4c569d71"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.20.0"
-
   flutter_config:
     dependency: "direct main"
     description:
@@ -384,7 +374,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.2"
-
+  flutter_hooks:
+    dependency: "direct main"
+    description:
+      name: flutter_hooks
+      sha256: "9eab8fd7aa752c3c1c0a364f9825851d410eb935243411682f4b1b0a4c569d71"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.20.0"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -992,12 +989,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.2"
-
 sdks:
-  dart: ">=3.1.0-185.0.dev <4.0.0"
+  dart: ">=3.0.0 <4.0.0"
   flutter: ">=3.10.0"
-
-
- 
-
-

@@ -3,16 +3,14 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:oshigamimeguri/page_explain.dart';
+import 'package:oshigamimeguri/shrine_cetner.dart';
 
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-class GoogleMapPage extends StatefulWidget {
-  const GoogleMapPage({super.key});
-  @override
-  State<GoogleMapPage> createState() => _GoogleMapPageState();
-}
+class GoogleMapPage extends StatelessWidget {
+  GoogleMapPage({super.key, required this.shrine});
 
-class _GoogleMapPageState extends State<GoogleMapPage> {
+  final shrineCenter shrine;
   late GoogleMapController mapController;
 
   final _center =
@@ -45,6 +43,7 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
   @override
   Widget build(BuildContext context) {
     final _screenSize = MediaQuery.of(context).size;
+
     return Scaffold(
       body: Column(
         children: [
@@ -59,8 +58,13 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
             child: Column(children: [
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) => Explain()));
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => Explain(
+                        shrine: shrine,
+                      ),
+                    ),
+                  );
                 },
                 child: Container(
                   alignment: Alignment.centerLeft,
