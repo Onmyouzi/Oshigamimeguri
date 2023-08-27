@@ -22,6 +22,9 @@ final locationProvider = FutureProvider((ref) async {
   return await _determinePosition();
 });
 
+final locationStreamProvider =
+    StreamProvider((ref) => Geolocator.getPositionStream());
+
 final shrineProvider = FutureProvider<List<shrineCenter>>((ref) async {
   QuerySnapshot snapshot =
       await FirebaseFirestore.instance.collection('shrines').get();
@@ -40,78 +43,108 @@ final shrineProvider = FutureProvider<List<shrineCenter>>((ref) async {
       .toList();
 });
 
+final visitedShrineStateProvider =
+    StateProvider<List<shrineCenter>>((ref) => []);
+
 class DataFetcher extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final double _deviceWidth = MediaQuery.of(context).size.width;
     final double deviceHeight = MediaQuery.of(context).size.height;
 
-    final currentPosition = ref.watch(locationProvider);
+    final startPosition = ref.watch(locationProvider);
     final shrineData = ref.watch(shrineProvider);
+    // 現在の神社と過去の神社を保存する場所
+    final visitedState = ref.watch(visitedShrineStateProvider);
+    final visitedNotifier = ref.read(visitedShrineStateProvider.notifier);
 
     // 現在位置のデータがロードされているか確認
-    if (currentPosition is AsyncData<Position>) {
-      final Position position = currentPosition.value;
+    if (startPosition is AsyncData<Position>) {
+      var currentPosition = ref.watch(locationStreamProvider);
       return shrineData.when(
         data: (shrineData) {
-          final filterdShrindata = _filterPositionsByDistance(
-              shrineData, position.latitude, position.longitude);
-          return Scaffold(
-            body: Column(
-              children: [
-                Container(
-                  padding: EdgeInsets.all(0),
-                  height: deviceHeight * 0.3,
-                  color: const Color.fromARGB(255, 247, 242, 227),
-                  child: Container(
-                      color: const Color.fromARGB(255, 247, 242, 227),
-                      padding: EdgeInsets.only(top: deviceHeight * 0.15),
-                      child: Image.asset('images/ema_title.png')),
-                ),
-                Container(
-                  height: deviceHeight * 0.7,
-                  child: GridView.builder(
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2),
-                    itemCount: (filterdShrindata.length),
-                    itemBuilder: (context, index) {
-                      final data = filterdShrindata[index];
+          return currentPosition.when(
+            data: (position) {
+              //
+              final filterdShrindata = _filterPositionsByDistance(
+                  shrineData, position.latitude, position.longitude);
+              final currentState = visitedState;
+              final updatedShrineState =
+                  (currentState + filterdShrindata).toSet().toList();
+              print(updatedShrineState);
+              // visitedNotifier.state = updatedShrineState;
 
-                      return Card(
-                        //UIをここに書いていく
-                        color: Color.fromARGB(228, 205, 152, 103),
-                        child: Center(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.circular(30), // 角の半径を設定
-                            ),
-                            height: 1000,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                  'images/' + data.imageName,
-                                ),
-                                Text(' ${data.name}'),
-                              ],
-                            ),
+              return Scaffold(
+                body: Column(
+                  children: [
+                    Container(
+                      height: deviceHeight * 0.15,
+                      color: Colors.amber,
+                    ),
+                    Container(
+                      height: deviceHeight * 0.25,
+                      color: const Color.fromARGB(255, 247, 242, 227),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage('images/ema_title.png'),
+                            fit: BoxFit.contain,
                           ),
                         ),
-                      );
-                    },
-                  ),
+                      ),
+                    ),
+                    Text(
+                        '${startPosition.value.latitude},${startPosition.value.longitude}'),
+                    Container(
+                      color: const Color.fromARGB(255, 247, 242, 227),
+                      height: deviceHeight * 0.6,
+                      child: GridView.builder(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2),
+                        itemCount: (updatedShrineState.length),
+                        itemBuilder: (context, index) {
+                          final data = updatedShrineState[index];
+
+                          return Card(
+                            //UIをここに書いていく
+                            color: Color.fromARGB(228, 205, 152, 103),
+                            child: Center(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.circular(30), // 角の半径を設定
+                                ),
+                                height: 1000,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      'images/' + data.imageName,
+                                    ),
+                                    Text(
+                                        ' ${data.name} ${data.lat},${data.lng}'),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              );
+            },
+            loading: () => Center(child: CircularProgressIndicator()),
+            error: (e, _) => Center(child: Text('Error:')),
           );
         },
         loading: () => Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(child: Text('Error:')),
       );
-    } else if (currentPosition is AsyncError) {
-      return Center(child: Text('Location Error:${currentPosition.error}'));
+    } else if (startPosition is AsyncError) {
+      return Center(child: Text('Location Error:${startPosition.error}'));
     } else {
       return Center(child: CircularProgressIndicator());
     }
@@ -175,40 +208,41 @@ Future<Position> _determinePosition() async {
   return await Geolocator.getCurrentPosition();
 }
 
+// latとlangから近い神社を取得する
 List<shrineCenter> _filterPositionsByDistance(
     List<shrineCenter> shrine, double lat, double lng) {
-  const double distanceThreshold = 1000000000.0; // 100m
+  const double distanceThreshold = 100; // 100m
 
   return shrine.where((position) {
+    // print('current: $lat,$lng shrine: ${position.lat},${position.lng}}');
     double distance = _distanceBetween(
       lat,
       lng,
       position.lat,
       position.lng,
     );
+    // print(distance);
     return distance <= distanceThreshold;
   }).toList();
 }
 
 double _distanceBetween(
-  double startLatitude,
-  double startLongitude,
-  double endLatitude,
-  double endLongitude,
+  double latitude1,
+  double longitude1,
+  double latitude2,
+  double longitude2,
 ) {
-  var earthRadius = 6378137.0;
-  var dLat = _toRadians(endLatitude - startLatitude);
-  var dLon = _toRadians(endLongitude - startLongitude);
-
-  var a = pow(sin(dLat / 2), 2) +
-      pow(sin(dLon / 2), 2) *
-          cos(_toRadians(startLatitude)) *
-          cos(_toRadians(endLatitude));
-  var c = 2 * asin(sqrt(a));
-
-  return earthRadius * c;
+  final double r = 6378137.0; // 地球の半径
+  final double f1 = toRadians(latitude1);
+  final double f2 = toRadians(latitude2);
+  final double l1 = toRadians(longitude1);
+  final double l2 = toRadians(longitude2);
+  final num a = pow(sin((f2 - f1) / 2), 2);
+  final double b = cos(f1) * cos(f2) * pow(sin((l2 - l1) / 2), 2);
+  final double d = 2 * r * asin(sqrt(a + b));
+  return d;
 }
 
-double _toRadians(double degree) {
+double toRadians(double degree) {
   return degree * pi / 180;
 }
