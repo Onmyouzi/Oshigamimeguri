@@ -1,7 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:oshigamimeguri/page_ema.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({super.key});
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  @override
+  void initState() {
+    determinePosition().then((value) => print(value));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
