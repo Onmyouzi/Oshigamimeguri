@@ -8,7 +8,6 @@ import 'package:geolocator/geolocator.dart';
 class Ema extends ConsumerWidget {
   //神社の座標を取得する
   @override
-  //UIを書いていく
   Widget build(BuildContext context, WidgetRef ref) {
     final double _deviceWidth = MediaQuery.of(context).size.width;
     final double _deviceHeight = MediaQuery.of(context).size.height;
@@ -32,6 +31,7 @@ final shrineProvider = FutureProvider<List<shrineCenter>>((ref) async {
       .map((shrine) => shrineCenter(
           lat: shrine['lat'],
           lng: shrine['lng'],
+          imageName: shrine['imageName'].toString(),
           explanation: shrine["explanation"].toString(),
           godID: shrine['godID'].toString(),
           name: shrine['name'].toString(),
@@ -63,19 +63,26 @@ class DataFetcher extends ConsumerWidget {
               itemBuilder: (context, index) {
                 final data = filterdShrindata[index];
 
-                return Card(
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('Current Position:'),
-                        Text('Latitude: ${position.latitude}'),
-                        Text('Longitude: ${position.longitude}'),
-                        SizedBox(height: 20),
-                        Text('Shrine: ${data.name}'),
-                        Text('Latitude: ${data.lat}'),
-                        Text('Longitude: ${data.lng}'),
-                      ],
+                return Container(
+                  height: 600,
+                  child: Card(
+                    //UIをここに書いていく
+                    color: const Color.fromARGB(255, 146, 135, 37),
+                    child: Center(
+                      child: Container(
+                        color: Colors.orange,
+                        height: 500,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'images/' + data.imageName,
+                            ),
+                            Text('Shrine: ${data.name}'),
+                            
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 );
@@ -102,6 +109,7 @@ class shrineCenter {
   final String name;
   final double lat;
   final double lng;
+  final String imageName;
 
   shrineCenter(
       {required this.explanation,
@@ -109,7 +117,8 @@ class shrineCenter {
       required this.hiraName,
       required this.name,
       required this.lat,
-      required this.lng});
+      required this.lng,
+      required this.imageName});
 }
 
 /// デバイスの現在位置を決定する。

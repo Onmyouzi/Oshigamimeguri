@@ -20,12 +20,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: '/signIn',
+      initialRoute: '/ema',
       routes: {
         '/signIn': (context) => const PageSignIn(),
         '/signUp': (context) => const PageSignUp(),
         '/signUp/oshigamiReqistration': (context) =>
             const PageOshigamiReqistration(),
+            '/ema': (context) => Ema(),
       },
       title: 'Flutter Demo',
       theme: ThemeData(
