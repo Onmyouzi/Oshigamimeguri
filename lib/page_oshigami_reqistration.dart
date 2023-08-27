@@ -1,6 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:oshigamimeguri/arguments_user_info.dart';
 import 'package:oshigamimeguri/background.dart';
 import 'package:oshigamimeguri/custom_form_elevated_button.dart';
+import 'package:oshigamimeguri/custom_form_show_dialog.dart';
 import 'package:oshigamimeguri/from_box.dart';
 import 'package:oshigamimeguri/my_colors.dart';
 
@@ -13,15 +17,23 @@ class PageOshigamiReqistration extends StatefulWidget {
 }
 
 class _PageOshigamiReqistrationState extends State<PageOshigamiReqistration> {
-  int _selectedValueIndex = 1;
+  int _selectedValueIndex = 900000002;
+  final int susanou = 900000003;
+  final int amaterasu = 900000002;
+  final int stukunomi = 900000008;
 
-  List odhigamiName = ['須佐能', '天照', '月詠'];
+  Map odhigamiName = {900000003: '須佐能', 900000002: '天照', 900000008: '月詠'};
 
   @override
   Widget build(BuildContext context) {
+    final args =
+        ModalRoute.of(context)!.settings.arguments as ArgumentsUserInfo;
     final Size size = MediaQuery.of(context).size;
     final double boxHeight = size.height * 0.8;
     final double boxWidth = size.width * 0.9;
+
+    print(args.email);
+    print(args.password);
 
     return Scaffold(
       body: GestureDetector(
@@ -101,9 +113,10 @@ class _PageOshigamiReqistrationState extends State<PageOshigamiReqistration> {
                                         '須佐能',
                                         style: TextStyle(
                                           fontSize: 16,
-                                          fontWeight: _selectedValueIndex == 0
-                                              ? FontWeight.bold
-                                              : null,
+                                          fontWeight:
+                                              _selectedValueIndex == susanou
+                                                  ? FontWeight.bold
+                                                  : null,
                                         ),
                                       ),
                                     ),
@@ -111,18 +124,20 @@ class _PageOshigamiReqistrationState extends State<PageOshigamiReqistration> {
                                       splashColor: Colors.cyanAccent,
                                       onTap: () {
                                         setState(() {
-                                          _selectedValueIndex = 0;
+                                          _selectedValueIndex = susanou;
                                         });
                                       },
                                       child: Stack(
                                         children: [
                                           Container(
-                                            height: _selectedValueIndex == 0
-                                                ? boxWidth * 0.28
-                                                : boxWidth * 0.25,
-                                            width: _selectedValueIndex == 0
-                                                ? boxWidth * 0.28
-                                                : boxWidth * 0.25,
+                                            height:
+                                                _selectedValueIndex == susanou
+                                                    ? boxWidth * 0.28
+                                                    : boxWidth * 0.25,
+                                            width:
+                                                _selectedValueIndex == susanou
+                                                    ? boxWidth * 0.28
+                                                    : boxWidth * 0.25,
                                             decoration: BoxDecoration(
                                               color: Colors.blue,
                                               border: Border.all(
@@ -136,7 +151,7 @@ class _PageOshigamiReqistrationState extends State<PageOshigamiReqistration> {
                                                   'images/susanou.png'),
                                             ),
                                           ),
-                                          if (_selectedValueIndex != 0)
+                                          if (_selectedValueIndex != susanou)
                                             Container(
                                               height: boxWidth * 0.25,
                                               width: boxWidth * 0.25,
@@ -159,9 +174,10 @@ class _PageOshigamiReqistrationState extends State<PageOshigamiReqistration> {
                                         '天照',
                                         style: TextStyle(
                                           fontSize: 16,
-                                          fontWeight: _selectedValueIndex == 1
-                                              ? FontWeight.bold
-                                              : null,
+                                          fontWeight:
+                                              _selectedValueIndex == amaterasu
+                                                  ? FontWeight.bold
+                                                  : null,
                                         ),
                                       ),
                                     ),
@@ -170,18 +186,20 @@ class _PageOshigamiReqistrationState extends State<PageOshigamiReqistration> {
                                       focusColor: Colors.pink,
                                       onTap: () {
                                         setState(() {
-                                          _selectedValueIndex = 1;
+                                          _selectedValueIndex = amaterasu;
                                         });
                                       },
                                       child: Stack(
                                         children: [
                                           Container(
-                                            height: _selectedValueIndex == 1
-                                                ? boxWidth * 0.28
-                                                : boxWidth * 0.25,
-                                            width: _selectedValueIndex == 1
-                                                ? boxWidth * 0.28
-                                                : boxWidth * 0.25,
+                                            height:
+                                                _selectedValueIndex == amaterasu
+                                                    ? boxWidth * 0.28
+                                                    : boxWidth * 0.25,
+                                            width:
+                                                _selectedValueIndex == amaterasu
+                                                    ? boxWidth * 0.28
+                                                    : boxWidth * 0.25,
                                             decoration: BoxDecoration(
                                               color: Colors.red,
                                               border: Border.all(
@@ -195,7 +213,7 @@ class _PageOshigamiReqistrationState extends State<PageOshigamiReqistration> {
                                                   'images/amaterasu.png'),
                                             ),
                                           ),
-                                          if (_selectedValueIndex != 1)
+                                          if (_selectedValueIndex != amaterasu)
                                             Container(
                                               height: boxWidth * 0.25,
                                               width: boxWidth * 0.25,
@@ -218,9 +236,10 @@ class _PageOshigamiReqistrationState extends State<PageOshigamiReqistration> {
                                         '月詠',
                                         style: TextStyle(
                                           fontSize: 16,
-                                          fontWeight: _selectedValueIndex == 2
-                                              ? FontWeight.bold
-                                              : null,
+                                          fontWeight:
+                                              _selectedValueIndex == stukunomi
+                                                  ? FontWeight.bold
+                                                  : null,
                                         ),
                                       ),
                                     ),
@@ -228,18 +247,20 @@ class _PageOshigamiReqistrationState extends State<PageOshigamiReqistration> {
                                       splashColor: Colors.cyanAccent,
                                       onTap: () {
                                         setState(() {
-                                          _selectedValueIndex = 2;
+                                          _selectedValueIndex = stukunomi;
                                         });
                                       },
                                       child: Stack(
                                         children: [
                                           Container(
-                                            height: _selectedValueIndex == 2
-                                                ? boxWidth * 0.28
-                                                : boxWidth * 0.25,
-                                            width: _selectedValueIndex == 2
-                                                ? boxWidth * 0.28
-                                                : boxWidth * 0.25,
+                                            height:
+                                                _selectedValueIndex == stukunomi
+                                                    ? boxWidth * 0.28
+                                                    : boxWidth * 0.25,
+                                            width:
+                                                _selectedValueIndex == stukunomi
+                                                    ? boxWidth * 0.28
+                                                    : boxWidth * 0.25,
                                             decoration: BoxDecoration(
                                               color: Colors.yellow,
                                               border: Border.all(
@@ -253,7 +274,7 @@ class _PageOshigamiReqistrationState extends State<PageOshigamiReqistration> {
                                                   'images/stukuyomi.png'),
                                             ),
                                           ),
-                                          if (_selectedValueIndex != 2)
+                                          if (_selectedValueIndex != stukunomi)
                                             Container(
                                               height: boxWidth * 0.25,
                                               width: boxWidth * 0.25,
@@ -282,9 +303,26 @@ class _PageOshigamiReqistrationState extends State<PageOshigamiReqistration> {
                           height: (boxHeight * 0.4 - 8) * 0.2,
                           width: boxWidth * 0.6,
                           text: '登録',
-                          onPressed: () {
-                            Navigator.of(context)
-                                .pushNamed('/signUp/oshigamiReqistration');
+                          onPressed: () async {
+                            try {
+                              final auth = FirebaseAuth.instance;
+                              final store = FirebaseFirestore.instance;
+
+                              /// credential にはアカウント情報が記録される
+                              await auth.createUserWithEmailAndPassword(
+                                email: args.email,
+                                password: args.password,
+                              );
+
+                              store
+                                  .collection('users')
+                                  .doc(auth.currentUser?.uid)
+                                  .set({'oshigamiID': _selectedValueIndex});
+
+                              Navigator.of(context).pushNamed('/testHome');
+                            } catch (e) {
+                              customFormShowDialog(context, '登録ができませんでした');
+                            }
                           },
                         ),
                       ),
