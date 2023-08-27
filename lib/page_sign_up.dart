@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:oshigamimeguri/arguments_user_info.dart';
 import 'package:oshigamimeguri/background.dart';
 import 'package:oshigamimeguri/custom_form_elevated_button.dart';
+import 'package:oshigamimeguri/custom_form_show_dialog.dart';
 import 'package:oshigamimeguri/custom_form_text_button.dart';
 import 'package:oshigamimeguri/custom_form_text_form_field.dart';
 import 'package:oshigamimeguri/from_box.dart';
@@ -94,13 +97,53 @@ class PageSignUp extends StatelessWidget {
                               height: (boxHeight * 0.4 - 8) * 0.2,
                               width: boxWidth * 0.6,
                               text: '登録',
-                              onPressed: () {
+                              onPressed: () async {
                                 form1.currentState?.save();
-                                print(email);
-                                print(password);
-                                print(checkPassword);
-                                Navigator.of(context)
-                                    .pushNamed('/signUp/oshigamiReqistration');
+                                if (password == checkPassword) {
+                                  try {
+                                    final auth = FirebaseAuth.instance;
+
+                                    /// credential にはアカウント情報が記録される
+                                    await auth.createUserWithEmailAndPassword(
+                                      email: email,
+                                      password: password,
+                                    );
+
+                                    auth.currentUser?.delete();
+
+                                    Navigator.of(context).pushNamed(
+                                        '/signUp/oshigamiReqistration',
+                                        arguments: ArgumentsUserInfo(
+                                            email: email, password: password));
+                                  }
+
+                                  /// アカウントに失敗した場合のエラー処理
+                                  on FirebaseAuthException catch (e) {
+                                    /// パスワードが弱い場合
+                                    if (e.code == 'weak-password') {
+                                      customFormShowDialog(
+                                          context, 'パスワードが弱いです');
+
+                                      /// メールアドレスが既に使用中の場合
+                                    } else if (e.code ==
+                                        'email-already-in-use') {
+                                      customFormShowDialog(
+                                          context, 'すでに使用されているメールアドレスです');
+                                    }
+
+                                    /// その他エラー
+                                    else {
+                                      customFormShowDialog(
+                                          context, 'アカウント作成エラー: ${e}');
+                                      print(e);
+                                    }
+                                  } catch (e) {
+                                    customFormShowDialog(context, '${e}');
+                                  }
+                                } else {
+                                  customFormShowDialog(
+                                      context, 'パスワードと確認パスワードが異なります');
+                                }
                               },
                             ),
                             CustomFormTextButton(
