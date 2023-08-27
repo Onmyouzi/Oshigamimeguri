@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:oshigamimeguri/background.dart';
 import 'package:oshigamimeguri/custom_form_elevated_button.dart';
+import 'package:oshigamimeguri/custom_form_show_dialog.dart';
 import 'package:oshigamimeguri/custom_form_text_button.dart';
 import 'package:oshigamimeguri/custom_form_text_form_field.dart';
 import 'package:oshigamimeguri/from_box.dart';
@@ -85,16 +88,46 @@ class PageSignIn extends StatelessWidget {
                         height: (boxHeight * 0.4 - 8) * 0.23,
                         width: boxWidth * 0.6,
                         text: 'ログイン',
-                        onPressed: () {
+                        onPressed: () async {
                           form0.currentState?.save();
-                          print(email);
-                          print(password);
+                          try {
+                            /// credential にはアカウント情報が記録される
+                            await FirebaseAuth.instance
+                                .signInWithEmailAndPassword(
+                              email: email,
+                              password: password,
+                            );
+                            context.go('/home');
+                          }
+
+                          /// サインインに失敗した場合のエラー処理
+                          on FirebaseAuthException catch (e) {
+                            /// メールアドレスが無効の場合
+                            if (e.code == 'invalid-email') {
+                              customFormShowDialog(context, 'メールアドレスが無効です');
+                            }
+
+                            /// ユーザーが存在しない場合
+                            else if (e.code == 'user-not-found') {
+                              customFormShowDialog(context, 'ユーザーが存在しません');
+                            }
+
+                            /// パスワードが間違っている場合
+                            else if (e.code == 'wrong-password') {
+                              customFormShowDialog(context, 'パスワードが間違っています');
+                            }
+
+                            /// その他エラー
+                            else {
+                              customFormShowDialog(context, 'サインインエラー');
+                            }
+                          }
                         },
                       ),
                       CustomFormTextButton(
                         text: '新規登録はこちら',
                         onPressed: () {
-                          Navigator.of(context).pushNamed('/signUp');
+                          context.go('/signUp');
                         },
                       ),
                     ],

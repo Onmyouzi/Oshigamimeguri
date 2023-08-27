@@ -12,14 +12,12 @@ class Ema extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final double _deviceWidth = MediaQuery.of(context).size.width;
     final double _deviceHeight = MediaQuery.of(context).size.height;
-    return new MaterialApp(
-      home: Scaffold(body: DataFetcher()),
-    );
+    return Scaffold(body: DataFetcher());
   }
 }
 
 final locationProvider = FutureProvider((ref) async {
-  return await _determinePosition();
+  return await determinePosition();
 });
 
 final locationStreamProvider =
@@ -174,7 +172,7 @@ class shrineCenter {
 /// デバイスの現在位置を決定する。
 /// 位置情報サービスが有効でない場合、または許可されていない場合。
 /// エラーを返します
-Future<Position> _determinePosition() async {
+Future<Position> determinePosition() async {
   bool serviceEnabled;
   LocationPermission permission;
 
