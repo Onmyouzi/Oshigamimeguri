@@ -39,6 +39,7 @@ final shrineProvider = FutureProvider<List<shrineCenter>>((ref) async {
       .toList();
 });
 
+
 class DataFetcher extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
