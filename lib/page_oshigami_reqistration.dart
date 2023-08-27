@@ -314,7 +314,7 @@ class PageOshigamiReqistration extends HookConsumerWidget {
                                 {'oshigamiID': '${selectedValueIndex.value}'},
                               );
 
-                              context.go('/home');
+                              context.go('/');
                             } catch (e) {
                               customFormShowDialog(context, '登録ができませんでした');
                             }
