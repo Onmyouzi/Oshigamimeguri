@@ -3,16 +3,14 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:oshigamimeguri/page_explain.dart';
+import 'package:oshigamimeguri/shrine_cetner.dart';
 
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-class GoogleMapPage extends StatefulWidget {
-  const GoogleMapPage({super.key});
-  @override
-  State<GoogleMapPage> createState() => _GoogleMapPageState();
-}
+class GoogleMapPage extends StatelessWidget {
+  GoogleMapPage({super.key, required this.shrine});
 
-class _GoogleMapPageState extends State<GoogleMapPage> {
+  final shrineCenter shrine;
   late GoogleMapController mapController;
 
   final _center =
@@ -22,29 +20,10 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
     mapController = controller;
   }
 
-  Future<Set<Marker>> _createMarkers() async {
-    QuerySnapshot snapshot = await _firestore.collection('shrines').get();
-    final markers = Set<Marker>();
-
-    for (final document in snapshot.docs) {
-      final shrines = document.data() as Map<String, dynamic>;
-      double lat = shrines['lat'];
-      double lng = shrines['lng'];
-
-      Marker marker = Marker(
-        markerId: MarkerId(document.id),
-        position: LatLng(lat, lng),
-      );
-
-      markers.add(marker);
-    }
-
-    return markers;
-  }
-
   @override
   Widget build(BuildContext context) {
     final _screenSize = MediaQuery.of(context).size;
+
     return Scaffold(
       body: Column(
         children: [
@@ -59,8 +38,13 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
             child: Column(children: [
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) => Explain()));
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => Explain(
+                        shrine: shrine,
+                      ),
+                    ),
+                  );
                 },
                 child: Container(
                   alignment: Alignment.centerLeft,
@@ -74,25 +58,18 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
                 child: Container(
                   width: _screenSize.width * 0.9,
                   height: _screenSize.height * 0.55,
-                  child: FutureBuilder<Set<Marker>>(
-                    future: _createMarkers(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        if (snapshot.hasError) {
-                          return Center(child: Text('エラー: ${snapshot.error}'));
-                        }
-                        return GoogleMap(
-                          initialCameraPosition: CameraPosition(
-                            target: _center,
-                            zoom: 15,
-                          ),
-                          markers: snapshot.data!,
-                          // 他のGoogleMapのプロパティ...
-                        );
-                      } else {
-                        return Center(child: CircularProgressIndicator());
-                      }
+                  child: GoogleMap(
+                    initialCameraPosition: CameraPosition(
+                      target: _center,
+                      zoom: 15,
+                    ),
+                    markers: {
+                      Marker(
+                        markerId: MarkerId(shrine.godID),
+                        position: LatLng(shrine.lat, shrine.lng),
+                      )
                     },
+                    // 他のGoogleMapのプロパティ...
                   ),
                 ),
               )

@@ -20,6 +20,7 @@ void main() async {
 }
 
 final GoRouter _router = GoRouter(
+
   initialLocation: '/signIn',
   routes: <RouteBase>[
     GoRoute(
@@ -35,7 +36,12 @@ final GoRouter _router = GoRouter(
       },
     ),
     GoRoute(
-
+      path: '/search',
+      builder: (BuildContext context, GoRouterState state) {
+        return const Search();
+      },
+    ),
+    GoRoute(
       path: '/signUp',
       builder: (BuildContext context, GoRouterState state) {
         return const PageSignUp();
@@ -49,6 +55,7 @@ final GoRouter _router = GoRouter(
         ),
       ],
     ),
+
   ],
 );
 
