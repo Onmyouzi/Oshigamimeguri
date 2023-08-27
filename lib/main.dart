@@ -34,24 +34,27 @@ final GoRouter _router = GoRouter(
       },
     ),
     GoRoute(
-      path: '/googlemap',
+
+      path: '/signUp',
       builder: (BuildContext context, GoRouterState state) {
-        return const GoogleMapPage();
+        return const PageSignUp();
       },
+      routes: [
+        GoRoute(
+          path: 'oshigamiReqistration',
+          builder: (BuildContext context, GoRouterState state) {
+            return const PageOshigamiReqistration();
+          },
+        ),
+      ],
     ),
     GoRoute(
-        path: '/signUp',
+        path: '/home',
+
+     
         builder: (BuildContext context, GoRouterState state) {
-          return const PageSignUp();
-        },
-        routes: [
-          GoRoute(
-            path: 'oshigamiReqistration',
-            builder: (BuildContext context, GoRouterState state) {
-              return const PageOshigamiReqistration();
-            },
-          ),
-        ]),
+          return const Home();
+        })
   ],
 );
 
