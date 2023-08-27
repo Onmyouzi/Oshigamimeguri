@@ -72,6 +72,7 @@ class DataFetcher extends ConsumerWidget {
               print(updatedShrineState);
               // visitedNotifier.state = updatedShrineState;
 
+//UIを作成　絵馬タイトル
               return Scaffold(
                 body: Column(
                   children: [
@@ -91,8 +92,6 @@ class DataFetcher extends ConsumerWidget {
                         ),
                       ),
                     ),
-                    Text(
-                        '${startPosition.value.latitude},${startPosition.value.longitude}'),
                     Container(
                       color: const Color.fromARGB(255, 247, 242, 227),
                       height: deviceHeight * 0.6,
