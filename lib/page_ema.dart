@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:oshigamimeguri/my_colors.dart';
 
 class Ema extends ConsumerWidget {
   //神社の座標を取得する
@@ -55,38 +56,54 @@ class DataFetcher extends ConsumerWidget {
         data: (shrineData) {
           final filterdShrindata = _filterPositionsByDistance(
               shrineData, position.latitude, position.longitude);
-          return Material(
-            child: GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2),
-              itemCount: (filterdShrindata.length),
-              itemBuilder: (context, index) {
-                final data = filterdShrindata[index];
+          return Scaffold(
+            body: Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(0),
+                  height: deviceHeight * 0.3,
+                  color: const Color.fromARGB(255, 247, 242, 227),
+                  child: Container(
+                      color: const Color.fromARGB(255, 247, 242, 227),
+                      padding: EdgeInsets.only(top: deviceHeight * 0.15),
+                      child: Image.asset('images/ema_title.png')),
+                ),
+                Container(
+                  height: deviceHeight * 0.7,
+                  child: GridView.builder(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2),
+                    itemCount: (filterdShrindata.length),
+                    itemBuilder: (context, index) {
+                      final data = filterdShrindata[index];
 
-                return Container(
-                  height: 600,
-                  child: Card(
-                    //UIをここに書いていく
-                    color: const Color.fromARGB(255, 146, 135, 37),
-                    child: Center(
-                      child: Container(
-                        color: Colors.orange,
-                        height: 500,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              'images/' + data.imageName,
+                      return Card(
+                        //UIをここに書いていく
+                        color: Color.fromARGB(228, 205, 152, 103),
+                        child: Center(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.circular(30), // 角の半径を設定
                             ),
-                            Text('Shrine: ${data.name}'),
-                            
-                          ],
+                            height: 1000,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'images/' + data.imageName,
+                                ),
+                                Text(' ${data.name}'),
+                              ],
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
+                      );
+                    },
                   ),
-                );
-              },
+                ),
+              ],
             ),
           );
         },
