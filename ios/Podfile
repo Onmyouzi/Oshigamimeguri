@@ -33,7 +33,7 @@ target 'Runner' do
   pod 'FirebaseCore'
   pod 'FirebaseFirestore'
   pod 'FirebaseStorage'
-
+  pod 'GoogleMaps', '5.2.0'
 
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
   target 'RunnerTests' do

@@ -5,22 +5,38 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 
+import 'package:oshigamimeguri/background.dart';
+
+
+import 'package:oshigamimeguri/shrine_cetner.dart';
+
+
+import 'package:oshigamimeguri/my_colors.dart';
+
+
 class Ema extends ConsumerWidget {
   //神社の座標を取得する
   @override
-  //UIを書いていく
   Widget build(BuildContext context, WidgetRef ref) {
     final double _deviceWidth = MediaQuery.of(context).size.width;
     final double _deviceHeight = MediaQuery.of(context).size.height;
-    return new MaterialApp(
-      home: Scaffold(body: DataFetcher()),
+    return Scaffold(
+      body: Stack(
+        children: [
+          Background(),
+          DataFetcher(),
+        ],
+      ),
     );
   }
 }
 
 final locationProvider = FutureProvider((ref) async {
-  return await _determinePosition();
+  return await determinePosition();
 });
+
+final locationStreamProvider =
+    StreamProvider((ref) => Geolocator.getPositionStream());
 
 final shrineProvider = FutureProvider<List<shrineCenter>>((ref) async {
   QuerySnapshot snapshot =
@@ -32,12 +48,16 @@ final shrineProvider = FutureProvider<List<shrineCenter>>((ref) async {
       .map((shrine) => shrineCenter(
           lat: shrine['lat'],
           lng: shrine['lng'],
+          imageName: shrine['imageName'].toString(),
           explanation: shrine["explanation"].toString(),
           godID: shrine['godID'].toString(),
           name: shrine['name'].toString(),
-          hiraName: shrine['hiraName'].toString())) // List<List<data>>
+          hiraName: shrine['hiraName'].toString())) // List<List<data>
       .toList();
 });
+
+final visitedShrineStateProvider =
+    StateProvider<List<shrineCenter>>((ref) => []);
 
 
 class DataFetcher extends ConsumerWidget {
@@ -46,77 +66,108 @@ class DataFetcher extends ConsumerWidget {
     final double _deviceWidth = MediaQuery.of(context).size.width;
     final double deviceHeight = MediaQuery.of(context).size.height;
 
-    final currentPosition = ref.watch(locationProvider);
+    final startPosition = ref.watch(locationProvider);
     final shrineData = ref.watch(shrineProvider);
+    // 現在の神社と過去の神社を保存する場所
+    final visitedState = ref.watch(visitedShrineStateProvider);
+    final visitedNotifier = ref.read(visitedShrineStateProvider.notifier);
 
     // 現在位置のデータがロードされているか確認
-    if (currentPosition is AsyncData<Position>) {
-      final Position position = currentPosition.value;
+    if (startPosition is AsyncData<Position>) {
+      var currentPosition = ref.watch(locationStreamProvider);
       return shrineData.when(
         data: (shrineData) {
-          final filterdShrindata = _filterPositionsByDistance(
-              shrineData, position.latitude, position.longitude);
-          return Material(
-            child: GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2),
-              itemCount: (filterdShrindata.length),
-              itemBuilder: (context, index) {
-                final data = filterdShrindata[index];
+          return currentPosition.when(
+            data: (position) {
+              //
+              final filterdShrindata = _filterPositionsByDistance(
+                  shrineData, position.latitude, position.longitude);
+              final currentState = visitedState;
+              final updatedShrineState =
+                  (currentState + filterdShrindata).toSet().toList();
+              print(updatedShrineState);
+              // visitedNotifier.state = updatedShrineState;
 
-                return Card(
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('Current Position:'),
-                        Text('Latitude: ${position.latitude}'),
-                        Text('Longitude: ${position.longitude}'),
-                        SizedBox(height: 20),
-                        Text('Shrine: ${data.name}'),
-                        Text('Latitude: ${data.lat}'),
-                        Text('Longitude: ${data.lng}'),
-                      ],
+//UIを作成　絵馬タイトル
+              return Scaffold(
+                body: Column(
+                  children: [
+                    Container(
+                      height: deviceHeight * 0.15,
+                      color: Colors.amber,
                     ),
-                  ),
-                );
-              },
-            ),
+                    Container(
+                      height: deviceHeight * 0.25,
+                      color: const Color.fromARGB(255, 247, 242, 227),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage('images/ema_title.png'),
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      color: const Color.fromARGB(255, 247, 242, 227),
+                      height: deviceHeight * 0.6,
+                      child: GridView.builder(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2),
+                        itemCount: (updatedShrineState.length),
+                        itemBuilder: (context, index) {
+                          final data = updatedShrineState[index];
+
+                          return Card(
+                            //UIをここに書いていく
+                            color: Color.fromARGB(228, 205, 152, 103),
+                            child: Center(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.circular(30), // 角の半径を設定
+                                ),
+                                height: 1000,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      'images/' + data.imageName,
+                                    ),
+                                    Text(
+                                        ' ${data.name} ${data.lat},${data.lng}'),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+            loading: () => Center(child: CircularProgressIndicator()),
+            error: (e, _) => Center(child: Text('Error:')),
           );
         },
         loading: () => Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(child: Text('Error:')),
       );
-    } else if (currentPosition is AsyncError) {
-      return Center(child: Text('Location Error:${currentPosition.error}'));
+    } else if (startPosition is AsyncError) {
+      return Center(child: Text('Location Error:${startPosition.error}'));
     } else {
       return Center(child: CircularProgressIndicator());
     }
   }
 }
 
-//クラス名
-class shrineCenter {
-  final String explanation;
-  final String godID;
-  final String hiraName;
-  final String name;
-  final double lat;
-  final double lng;
-
-  shrineCenter(
-      {required this.explanation,
-      required this.godID,
-      required this.hiraName,
-      required this.name,
-      required this.lat,
-      required this.lng});
-}
-
 /// デバイスの現在位置を決定する。
 /// 位置情報サービスが有効でない場合、または許可されていない場合。
 /// エラーを返します
-Future<Position> _determinePosition() async {
+Future<Position> determinePosition() async {
   bool serviceEnabled;
   LocationPermission permission;
 
@@ -150,40 +201,41 @@ Future<Position> _determinePosition() async {
   return await Geolocator.getCurrentPosition();
 }
 
+// latとlangから近い神社を取得する
 List<shrineCenter> _filterPositionsByDistance(
     List<shrineCenter> shrine, double lat, double lng) {
-  const double distanceThreshold = 1000000000.0; // 100m
+  const double distanceThreshold = 100; // 100m
 
   return shrine.where((position) {
+    // print('current: $lat,$lng shrine: ${position.lat},${position.lng}}');
     double distance = _distanceBetween(
       lat,
       lng,
       position.lat,
       position.lng,
     );
+    // print(distance);
     return distance <= distanceThreshold;
   }).toList();
 }
 
 double _distanceBetween(
-  double startLatitude,
-  double startLongitude,
-  double endLatitude,
-  double endLongitude,
+  double latitude1,
+  double longitude1,
+  double latitude2,
+  double longitude2,
 ) {
-  var earthRadius = 6378137.0;
-  var dLat = _toRadians(endLatitude - startLatitude);
-  var dLon = _toRadians(endLongitude - startLongitude);
-
-  var a = pow(sin(dLat / 2), 2) +
-      pow(sin(dLon / 2), 2) *
-          cos(_toRadians(startLatitude)) *
-          cos(_toRadians(endLatitude));
-  var c = 2 * asin(sqrt(a));
-
-  return earthRadius * c;
+  final double r = 6378137.0; // 地球の半径
+  final double f1 = toRadians(latitude1);
+  final double f2 = toRadians(latitude2);
+  final double l1 = toRadians(longitude1);
+  final double l2 = toRadians(longitude2);
+  final num a = pow(sin((f2 - f1) / 2), 2);
+  final double b = cos(f1) * cos(f2) * pow(sin((l2 - l1) / 2), 2);
+  final double d = 2 * r * asin(sqrt(a + b));
+  return d;
 }
 
-double _toRadians(double degree) {
+double toRadians(double degree) {
   return degree * pi / 180;
 }
