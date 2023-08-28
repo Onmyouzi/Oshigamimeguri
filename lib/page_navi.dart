@@ -19,8 +19,7 @@ class PageNavi extends HookWidget {
     final pages = [
       const Home(),
       Ema(),
-      const Serch(),
-      const GoogleMapPage(),
+      const Search(),
     ];
 
     final items = [
@@ -34,9 +33,6 @@ class PageNavi extends HookWidget {
           label: ""),
       BottomNavigationBarItem(
           icon: Image.asset('images/search.png', height: 40, width: 40),
-          label: ""),
-      BottomNavigationBarItem(
-          icon: Image.asset('images/stamp.png', height: 40, width: 40),
           label: ""),
     ];
 
@@ -109,20 +105,6 @@ class PageNavi extends HookWidget {
                       decoration: const BoxDecoration(
                         image: DecorationImage(
                             image: AssetImage('images/search.png')),
-                      ),
-                    ),
-                  ),
-                  InkWell(
-                    splashColor: Colors.cyanAccent,
-                    onTap: () {
-                      selectPageId.value = 3;
-                    },
-                    child: Container(
-                      width: screenSize.width * 0.15,
-                      height: screenSize.width * 0.15,
-                      decoration: const BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage('images/stamp.png')),
                       ),
                     ),
                   ),
