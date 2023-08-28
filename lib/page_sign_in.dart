@@ -181,7 +181,7 @@ class PageSignIn extends StatelessWidget {
                                 width: boxWidth * 0.9,
                                 text: 'メールアドレス',
                                 textInputAction: TextInputAction.next,
-                                onSaved: (value) {
+                                onChenge: (value) {
                                   email = value;
                                 },
                               ),
@@ -190,7 +190,7 @@ class PageSignIn extends StatelessWidget {
                                 width: boxWidth * 0.9,
                                 obscureText: true,
                                 text: 'パスワード',
-                                onSaved: (value) {
+                                onChenge: (value) {
                                   password = value;
                                 },
                               ),
