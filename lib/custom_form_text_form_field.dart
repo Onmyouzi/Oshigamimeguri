@@ -7,20 +7,19 @@ class CustomTextFormField extends StatelessWidget {
   final String text;
   final bool obscureText;
   final TextInputAction textInputAction;
-  final Function onSaved;
+  final Function onChenge;
   const CustomTextFormField({
     Key? key,
     required this.height,
     required this.width,
     required this.text,
     this.obscureText = false,
-    this.onSaved = _defaultOnOnSaved,
+    this.onChenge = _defaultOnOnSaved,
     this.textInputAction = TextInputAction.done,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final _editingController = TextEditingController();
 
     return SizedBox(
       height: height,
@@ -39,12 +38,11 @@ class CustomTextFormField extends StatelessWidget {
                   borderRadius: const BorderRadius.all(Radius.circular(50)),
                   color: MyColors.body,
                 ),
-                child: TextFormField(
-                  controller: _editingController,
+                child: TextField(
                   obscureText: obscureText,
                   textInputAction: textInputAction,
-                  onSaved: (value) {
-                    onSaved(value);
+                  onChanged: (value) {
+                    onChenge(value);
                   },
                   style: const TextStyle(fontSize: 24),
                   cursorColor: MyColors.primary,
