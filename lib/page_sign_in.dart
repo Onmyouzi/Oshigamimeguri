@@ -33,112 +33,112 @@ class PageSignIn extends StatelessWidget {
     String email = '';
     String password = '';
 
-    final form = SizedBox(
-      height: formHeight,
-      child: Center(
-        child: FromBox(
-          height: boxHeight,
-          width: boxWidth,
-          child: Form(
-            key: form0,
-            child: Column(
-              children: [
-                SizedBox(
-                  height: boxHeight * 0.2 - 8,
-                  child: const Center(
-                    child: Text(
-                      'ログイン',
-                      style:
-                          TextStyle(fontSize: 48, fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: boxHeight * 0.4,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      CustomTextFormField(
-                        height: boxHeight * 0.14,
-                        width: boxWidth * 0.9,
-                        text: 'メールアドレス',
-                        textInputAction: TextInputAction.next,
-                        onSaved: (value) {
-                          email = value;
-                        },
-                      ),
-                      CustomTextFormField(
-                        height: boxHeight * 0.14,
-                        width: boxWidth * 0.9,
-                        obscureText: true,
-                        text: 'パスワード',
-                        onSaved: (value) {
-                          password = value;
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: boxHeight * 0.4 - 8,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      CustomFormElevatedButton(
-                        height: (boxHeight * 0.4 - 8) * 0.23,
-                        width: boxWidth * 0.6,
-                        text: 'ログイン',
-                        onPressed: () async {
-                          form0.currentState?.save();
-                          try {
-                            /// credential にはアカウント情報が記録される
-                            await FirebaseAuth.instance
-                                .signInWithEmailAndPassword(
-                              email: email,
-                              password: password,
-                            );
-                            context.go('/');
-                          }
+    // final form = SizedBox(
+    //   height: formHeight,
+    //   child: Center(
+    //     child: FromBox(
+    //       height: boxHeight,
+    //       width: boxWidth,
+    //       child: Form(
+    //         key: form0,
+    //         child: Column(
+    //           children: [
+    //             SizedBox(
+    //               height: boxHeight * 0.2 - 8,
+    //               child: const Center(
+    //                 child: Text(
+    //                   'ログイン',
+    //                   style:
+    //                       TextStyle(fontSize: 48, fontWeight: FontWeight.w600),
+    //                 ),
+    //               ),
+    //             ),
+    //             SizedBox(
+    //               height: boxHeight * 0.4,
+    //               child: Column(
+    //                 mainAxisAlignment: MainAxisAlignment.spaceAround,
+    //                 children: [
+    //                   CustomTextFormField(
+    //                     height: boxHeight * 0.14,
+    //                     width: boxWidth * 0.9,
+    //                     text: 'メールアドレス',
+    //                     textInputAction: TextInputAction.next,
+    //                     onSaved: (value) {
+    //                       email = value;
+    //                     },
+    //                   ),
+    //                   CustomTextFormField(
+    //                     height: boxHeight * 0.14,
+    //                     width: boxWidth * 0.9,
+    //                     obscureText: true,
+    //                     text: 'パスワード',
+    //                     onSaved: (value) {
+    //                       password = value;
+    //                     },
+    //                   ),
+    //                 ],
+    //               ),
+    //             ),
+    //             SizedBox(
+    //               height: boxHeight * 0.4 - 8,
+    //               child: Column(
+    //                 mainAxisAlignment: MainAxisAlignment.center,
+    //                 children: [
+    //                   CustomFormElevatedButton(
+    //                     height: (boxHeight * 0.4 - 8) * 0.23,
+    //                     width: boxWidth * 0.6,
+    //                     text: 'ログイン',
+    //                     onPressed: () async {
+    //                       form0.currentState?.save();
+    //                       try {
+    //                         /// credential にはアカウント情報が記録される
+    //                         await FirebaseAuth.instance
+    //                             .signInWithEmailAndPassword(
+    //                           email: email,
+    //                           password: password,
+    //                         );
+    //                         context.go('/');
+    //                       }
 
-                          /// サインインに失敗した場合のエラー処理
-                          on FirebaseAuthException catch (e) {
-                            /// メールアドレスが無効の場合
-                            if (e.code == 'invalid-email') {
-                              customFormShowDialog(context, 'メールアドレスが無効です');
-                            }
+    //                       /// サインインに失敗した場合のエラー処理
+    //                       on FirebaseAuthException catch (e) {
+    //                         /// メールアドレスが無効の場合
+    //                         if (e.code == 'invalid-email') {
+    //                           customFormShowDialog(context, 'メールアドレスが無効です');
+    //                         }
 
-                            /// ユーザーが存在しない場合
-                            else if (e.code == 'user-not-found') {
-                              customFormShowDialog(context, 'ユーザーが存在しません');
-                            }
+    //                         /// ユーザーが存在しない場合
+    //                         else if (e.code == 'user-not-found') {
+    //                           customFormShowDialog(context, 'ユーザーが存在しません');
+    //                         }
 
-                            /// パスワードが間違っている場合
-                            else if (e.code == 'wrong-password') {
-                              customFormShowDialog(context, 'パスワードが間違っています');
-                            }
+    //                         /// パスワードが間違っている場合
+    //                         else if (e.code == 'wrong-password') {
+    //                           customFormShowDialog(context, 'パスワードが間違っています');
+    //                         }
 
-                            /// その他エラー
-                            else {
-                              customFormShowDialog(context, 'サインインエラー');
-                            }
-                          }
-                        },
-                      ),
-                      CustomFormTextButton(
-                        text: '新規登録はこちら',
-                        onPressed: () {
-                          context.go('/signUp');
-                        },
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
+    //                         /// その他エラー
+    //                         else {
+    //                           customFormShowDialog(context, 'サインインエラー');
+    //                         }
+    //                       }
+    //                     },
+    //                   ),
+    //                   CustomFormTextButton(
+    //                     text: '新規登録はこちら',
+    //                     onPressed: () {
+    //                       context.go('/signUp');
+    //                     },
+    //                   ),
+    //                 ],
+    //               ),
+    //             )
+    //           ],
+    //         ),
+    //       ),
+    //     ),
+    //   ),
+    // );
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -156,7 +156,107 @@ class PageSignIn extends StatelessWidget {
               child: Column(
                 children: [
                   header,
-                  form,
+                  FromBox(
+                    height: boxHeight,
+                    width: boxWidth,
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: boxHeight * 0.2 - 8,
+                          child: const Center(
+                            child: Text(
+                              'ログイン',
+                              style: TextStyle(
+                                  fontSize: 48, fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: boxHeight * 0.4,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              CustomTextFormField(
+                                height: boxHeight * 0.14,
+                                width: boxWidth * 0.9,
+                                text: 'メールアドレス',
+                                textInputAction: TextInputAction.next,
+                                onSaved: (value) {
+                                  email = value;
+                                },
+                              ),
+                              CustomTextFormField(
+                                height: boxHeight * 0.14,
+                                width: boxWidth * 0.9,
+                                obscureText: true,
+                                text: 'パスワード',
+                                onSaved: (value) {
+                                  password = value;
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: boxHeight * 0.4 - 8,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CustomFormElevatedButton(
+                                height: (boxHeight * 0.4 - 8) * 0.23,
+                                width: boxWidth * 0.6,
+                                text: 'ログイン',
+                                onPressed: () async {
+                                  form0.currentState?.save();
+                                  try {
+                                    /// credential にはアカウント情報が記録される
+                                    await FirebaseAuth.instance
+                                        .signInWithEmailAndPassword(
+                                      email: email,
+                                      password: password,
+                                    );
+                                    context.go('/');
+                                  }
+
+                                  /// サインインに失敗した場合のエラー処理
+                                  on FirebaseAuthException catch (e) {
+                                    /// メールアドレスが無効の場合
+                                    if (e.code == 'invalid-email') {
+                                      customFormShowDialog(
+                                          context, 'メールアドレスが無効です');
+                                    }
+
+                                    /// ユーザーが存在しない場合
+                                    else if (e.code == 'user-not-found') {
+                                      customFormShowDialog(
+                                          context, 'ユーザーが存在しません');
+                                    }
+
+                                    /// パスワードが間違っている場合
+                                    else if (e.code == 'wrong-password') {
+                                      customFormShowDialog(
+                                          context, 'パスワードが間違っています');
+                                    }
+
+                                    /// その他エラー
+                                    else {
+                                      customFormShowDialog(context, 'サインインエラー');
+                                    }
+                                  }
+                                },
+                              ),
+                              CustomFormTextButton(
+                                text: '新規登録はこちら',
+                                onPressed: () {
+                                  context.go('/signUp');
+                                },
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
