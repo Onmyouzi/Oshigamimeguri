@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:oshigamimeguri/background.dart';
 import 'package:oshigamimeguri/custom_form_elevated_button.dart';
@@ -12,7 +14,7 @@ import 'package:oshigamimeguri/from_box.dart';
 import 'package:oshigamimeguri/user_info.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-class PageSignUp extends ConsumerWidget {
+class PageSignUp extends HookConsumerWidget {
   const PageSignUp({Key? key}) : super(key: key);
 
   @override
@@ -22,10 +24,9 @@ class PageSignUp extends ConsumerWidget {
     final double boxHeight = size.height * 0.8;
     final double boxWidth = size.width * 0.9;
 
-    final form1 = GlobalKey<FormState>();
-    String email = '';
-    String password = '';
-    String checkPassword = '';
+    final email = useState('');
+    final password = useState('');
+    final checkPassword = useState('');
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -68,7 +69,7 @@ class PageSignUp extends ConsumerWidget {
                             text: 'メールアドレス',
                             textInputAction: TextInputAction.next,
                             onChenge: (value) {
-                              email = value;
+                              email.value = value;
                             },
                           ),
                           CustomTextFormField(
@@ -77,7 +78,7 @@ class PageSignUp extends ConsumerWidget {
                             obscureText: true,
                             text: 'パスワード',
                             onChenge: (value) {
-                              password = value;
+                              password.value = value;
                             },
                           ),
                           CustomTextFormField(
@@ -86,7 +87,7 @@ class PageSignUp extends ConsumerWidget {
                             obscureText: true,
                             text: '確認パスワード',
                             onChenge: (value) {
-                              checkPassword = value;
+                              checkPassword.value = value;
                             },
                           ),
                         ],
@@ -105,19 +106,20 @@ class PageSignUp extends ConsumerWidget {
                               final userInfoState =
                                   ref.watch(userInfoProvider.notifier);
 
-                              if (password == checkPassword) {
+                              if (password.value == checkPassword.value) {
                                 try {
                                   final auth = FirebaseAuth.instance;
 
                                   /// credential にはアカウント情報が記録される
                                   await auth.createUserWithEmailAndPassword(
-                                    email: email,
-                                    password: password,
+                                    email: email.value,
+                                    password: password.value,
                                   );
 
                                   auth.currentUser?.delete();
 
-                                  userInfoState.updateUserInfo(email, password);
+                                  userInfoState.updateUserInfo(email.value, password.value);
+                                  print(userInfo['email']);
 
                                   context.go('/signUp/oshigamiReqistration');
                                 }
@@ -147,7 +149,6 @@ class PageSignUp extends ConsumerWidget {
                                 customFormShowDialog(
                                     context, 'パスワードと確認パスワードが異なります');
                               }
-                              context.go('/signUp/oshigamiReqistration');
                             },
                           ),
                           CustomFormTextButton(

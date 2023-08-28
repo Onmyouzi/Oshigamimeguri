@@ -17,7 +17,7 @@ void main() async {
 }
 
 final GoRouter _router = GoRouter(
-  initialLocation: '/',
+  initialLocation: '/signIn',
   routes: <RouteBase>[
     GoRoute(
       path: '/',
