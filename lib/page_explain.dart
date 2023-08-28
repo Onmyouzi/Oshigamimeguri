@@ -46,7 +46,7 @@ class Explain extends StatelessWidget {
             width: _screenSize.width * 0.9,
             height: _screenSize.height * 0.43,
             child: Text(
-                '神',
+                '',
                 style: TextStyle(
                   fontSize: 30.0,
                   fontWeight: FontWeight.bold,
@@ -81,7 +81,7 @@ class Explain extends StatelessWidget {
                     'ビッグモーター',
                     style: TextStyle(
                       fontSize: 30.0,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w900,
                       color: Colors.white,
                       letterSpacing: 3.0,
                       fontFamily: 'Lato',
@@ -101,7 +101,7 @@ class Explain extends StatelessWidget {
                         // テキストスタイルの設定
                         fontSize: 15.0, // 文字サイズ
                         fontWeight: FontWeight.bold, // 文字の太さ
-                        color: Colors.black87, // 文字の色
+                        color: Colors.white, // 文字の色
                         letterSpacing: 3.0, // 文字と文字のスペース
                         fontFamily: 'Lato',
                       ),
@@ -118,7 +118,28 @@ class Explain extends StatelessWidget {
           child: Container(
             width: _screenSize.width,
             height: _screenSize.height * 0.1,
-            child: Image.asset('images/effect.png'),
+            child: Stack(
+              alignment: Alignment.center, // スタック内の要素を中央に配置
+              children: [
+                Align(
+                  alignment: Alignment.topCenter, // 画像をスタックの上部中央に配置
+                  child: Image.asset('images/effect.png'),
+                ),
+                Align(
+                  alignment: Alignment(0, 0.3),
+                  child: Text(
+                    '神',
+                    style: TextStyle(
+                      fontSize: 25.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                      letterSpacing: 3.0,
+                      fontFamily: 'Lato',
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
         GestureDetector(
