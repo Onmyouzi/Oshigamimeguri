@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-
-
 import 'package:oshigamimeguri/background.dart';
 import 'package:oshigamimeguri/google_map_page.dart';
 import 'package:oshigamimeguri/page_serch.dart';
@@ -12,7 +10,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:oshigamimeguri/shrine_cetner.dart';
-
 
 class Explain extends StatelessWidget {
   Explain({super.key, required this.shrine});
@@ -50,13 +47,9 @@ class Explain extends StatelessWidget {
             alignment: Alignment.centerLeft,
             width: _screenSize.width,
             height: _screenSize.height * 0.4,
-
             child: Image.asset('images/backbotton.png'),
-
           ),
         ),
-
-
         Align(
           alignment: Alignment(0, -0.38),
           child: Container(
@@ -84,7 +77,6 @@ class Explain extends StatelessWidget {
             ),
           ),
         ),
-
         Align(
           alignment: Alignment(0, 0.32),
           child: Container(
@@ -96,7 +88,7 @@ class Explain extends StatelessWidget {
                 Align(
                   alignment: Alignment(0, -0.3),
                   child: Text(
-                    'ビッグモーター',
+                    shrine.name,
                     style: TextStyle(
                       fontSize: 30.0,
                       fontWeight: FontWeight.w900,
@@ -111,7 +103,7 @@ class Explain extends StatelessWidget {
                   child: Container(
                     width: _screenSize.width * 0.7, // コンテナの幅を画面幅に合わせる
                     child: Text(
-                      '教育教育教育教育教育教育教育教育教育教育教育教育教育教育教育教育教育教育死刑死刑死刑死刑死刑死刑死刑死刑死刑教育教育教育教育教育教育教育教育教育教育教育教育教育教育教育教育教育教育',
+                      shrine.explanation,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 4,
                       textAlign: TextAlign.center, // テキストを中央に配置
@@ -130,7 +122,6 @@ class Explain extends StatelessWidget {
             ),
           ),
         ),
-
         Align(
           alignment: Alignment(0, 0.7),
           child: Container(
@@ -146,7 +137,7 @@ class Explain extends StatelessWidget {
                 Align(
                   alignment: Alignment(0, 0.3),
                   child: Text(
-                    '神',
+                    '無病息災',
                     style: TextStyle(
                       fontSize: 25.0,
                       fontWeight: FontWeight.bold,
@@ -160,7 +151,6 @@ class Explain extends StatelessWidget {
             ),
           ),
         ),
-
         Align(
           alignment: Alignment(0, 0.95),
           child: GestureDetector(
@@ -176,16 +166,12 @@ class Explain extends StatelessWidget {
               height: _screenSize.height * 0.1,
               child: Image.asset('images/gobutton.png'),
             ),
-
           ),
         )
       ]),
     );
   }
 }
-
-
-
 
 //クラス名
 class shrineExplain {
@@ -198,28 +184,27 @@ class shrineExplain {
 
   shrineExplain(
       {required this.explanation,
-        required this.godID,
-        required this.name,
-        required this.lat,
-        required this.lng,
-        required this.imageName});
+      required this.godID,
+      required this.name,
+      required this.lat,
+      required this.lng,
+      required this.imageName});
 }
 
 final shrineProvider = FutureProvider<List<shrineExplain>>((ref) async {
   QuerySnapshot snapshot =
-  await FirebaseFirestore.instance.collection('shrines').get();
+      await FirebaseFirestore.instance.collection('shrines').get();
 
   return snapshot.docs
       .map(
           (doc) => doc.data() as Map<String, dynamic>) // List<Map<index, data>>
       .map((shrine) => shrineExplain(
-      lat: shrine['lat'],
-      lng: shrine['lng'],
-      imageName: shrine['imageName'].toString(),
-      explanation: shrine["explanation"].toString(),
-      godID: shrine['godID'].toString(),
-      name: shrine['name'].toString(),
-     )) // List<List<data>>
+            lat: shrine['lat'],
+            lng: shrine['lng'],
+            imageName: shrine['imageName'].toString(),
+            explanation: shrine["explanation"].toString(),
+            godID: shrine['godID'].toString(),
+            name: shrine['name'].toString(),
+          )) // List<List<data>>
       .toList();
 });
-
