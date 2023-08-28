@@ -7,7 +7,6 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:oshigamimeguri/ShrineCard.dart';
 import 'package:oshigamimeguri/shrine_cetner.dart';
 
-
 class Search extends HookWidget {
   const Search({super.key});
 
@@ -34,20 +33,25 @@ class Search extends HookWidget {
       body: Stack(
         children: [
           Background(),
-          Container(
-            width: _screenSize.width,
-            height: _screenSize.height * 0.2,
-            child: Image.asset('images/headerLogo.png'),
-          ),
-          Container(
-            width: _screenSize.width,
-            height: _screenSize.height * 0.6,
-            child: Column(
-              children: [
-                for (final shrine in shrines.value) ShrineCard(shrine: shrine),
-              ],
-            ),
-          ),
+          Column(
+            children: [
+              Container(
+                width: _screenSize.width,
+                height: _screenSize.height * 0.2,
+                child: Image.asset('images/headerLogo.png'),
+              ),
+              Container(
+                width: _screenSize.width,
+                height: _screenSize.height * 0.8,
+                child: Column(
+                  children: [
+                    for (final shrine in shrines.value)
+                      ShrineCard(shrine: shrine),
+                  ],
+                ),
+              ),
+            ],
+          )
         ],
       ),
     );

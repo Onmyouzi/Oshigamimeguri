@@ -29,53 +29,57 @@ class GoogleMapPage extends StatelessWidget {
       body: Stack(
         children: [
           Background(),
-          Container(
-            width: _screenSize.width,
-            height: _screenSize.height * 0.2,
-            child: Image.asset('images/headerLogo.png'),
-          ),
-          Container(
-            width: _screenSize.width,
-            height: _screenSize.height * 0.6,
-            child: Column(children: [
-              GestureDetector(
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => Explain(
-                        shrine: shrine,
-                      ),
-                    ),
-                  );
-                },
-                child: Container(
-                  alignment: Alignment.centerLeft,
-                  width: _screenSize.width,
-                  height: _screenSize.height * 0.07 * 0.6,
-                  child: Image.asset('images/backbotton.png'),
-                ),
+          Column(
+            children: [
+              Container(
+                width: _screenSize.width,
+                height: _screenSize.height * 0.2,
+                child: Image.asset('images/headerLogo.png'),
               ),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(30),
-                child: Container(
-                  width: _screenSize.width * 0.9,
-                  height: _screenSize.height * 0.55,
-                  child: GoogleMap(
-                    initialCameraPosition: CameraPosition(
-                      target: _center,
-                      zoom: 15,
-                    ),
-                    markers: {
-                      Marker(
-                        markerId: MarkerId(shrine.godID),
-                        position: LatLng(shrine.lat, shrine.lng),
-                      )
+              Container(
+                width: _screenSize.width,
+                height: _screenSize.height * 0.6,
+                child: Column(children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => Explain(
+                            shrine: shrine,
+                          ),
+                        ),
+                      );
                     },
-                    // 他のGoogleMapのプロパティ...
+                    child: Container(
+                      alignment: Alignment.centerLeft,
+                      width: _screenSize.width,
+                      height: _screenSize.height * 0.07 * 0.6,
+                      child: Image.asset('images/backbotton.png'),
+                    ),
+                  ),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(30),
+                    child: Container(
+                      width: _screenSize.width * 0.9,
+                      height: _screenSize.height * 0.55,
+                      child: GoogleMap(
+                        initialCameraPosition: CameraPosition(
+                          target: _center,
+                          zoom: 15,
+                        ),
+                        markers: {
+                          Marker(
+                            markerId: MarkerId(shrine.godID),
+                            position: LatLng(shrine.lat, shrine.lng),
+                          )
+                        },
+                        // 他のGoogleMapのプロパティ...
                       ),
                     ),
                   )
                 ]),
+              ),
+            ],
           ),
         ],
       ),
